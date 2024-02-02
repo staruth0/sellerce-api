@@ -1,0 +1,31 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type":"module",
+  "description": "inventory management and E-commerce platform",
+  "main": "server.mjs",
+  "scripts": {
+    "test": "none",
+    "backend": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kouete-kenneth/InventoryApp.git"
+  },
+  "keywords": [
+    "inventory",
+    "orders",
+    "products",
+    "customers"
+  ],
+  "author": "Devlab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kouete-kenneth/InventoryApp/issues"
+  },
+  "homepage": "https://github.com/Kouete-kenneth/InventoryApp#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.0"
+  }
+}
