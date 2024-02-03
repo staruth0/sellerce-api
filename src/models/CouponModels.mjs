@@ -1,8 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const couponSchema = new mongoose.Schema({
-    coupon_id: { type: String , required:true},
-    name: { type: String, required: true },
+    percentage_deduction: { type: Number , required:true},
 	user_ids: [String],
 	code: { type: String, required: true },
 	start_date: { type: Date, default: Date.now() },
@@ -10,4 +9,4 @@ const couponSchema = new mongoose.Schema({
 })
 
 const Coupon = mongoose.model('Coupon', promotionSchema);
-module.exports = Coupon;
+export default Coupon;

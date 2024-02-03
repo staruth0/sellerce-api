@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const promotionSchema = new mongoose.Schema({
     promotion_id: { type: String , required:true},
@@ -11,4 +11,4 @@ const promotionSchema = new mongoose.Schema({
 })
 
 const Promotion = mongoose.model('Promotion', promotionSchema);
-module.exports = Promotion;
+export default Promotion;

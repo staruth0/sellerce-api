@@ -24,6 +24,7 @@
     "url": "https://github.com/Kouete-kenneth/InventoryApp/issues"
   },
   "homepage": "https://github.com/Kouete-kenneth/InventoryApp#readme",
+   "types": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",

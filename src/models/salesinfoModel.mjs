@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
-const orderSchema = new mongoose.Schema({
-    order_id: {
+const salesSchema = new mongoose.Schema({
+    sales_id: {  // transaction id
         type: String,
         required:true
     },
@@ -14,33 +14,17 @@ const orderSchema = new mongoose.Schema({
        quantity: { type: Number, required: true },
        price:{type:Number, required:true}
     }],
-    delivery_info: {
-        tracking_number: {
-            type:String
-        },
-        delivery_date: {
-           type:Date,  
-        },
-        delivery_person: {
-            type:String
-        }
-    },
     total_Amount: {
         type: Number,
-        required: true
-    },
-    order_status: {
-        type: String,
-        default: "Pending",
         required: true
     },
     payment_status: {
         type: String,
         required: true,
-        default: 'not paid',
+        default: 'paid',
         enum:['not paid', 'paid']
     },
-    order_date: {
+    sales_date: {
         type: Date,
         required: true,
         default: Date.now()
@@ -48,5 +32,5 @@ const orderSchema = new mongoose.Schema({
    
 })
 
-const Order = mongoose.model('Order', orderSchema);
-export default Order;
+const Sales = mongoose.model('Sales', salesSchema);
+export default Sales;
