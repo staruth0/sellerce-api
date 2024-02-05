@@ -6,7 +6,7 @@
   "main": "server.mjs",
   "scripts": {
     "test": "none",
-    "backend": "nodemon server.js"
+    "backend": "nodemon server.mjs"
   },
   "repository": {
     "type": "git",
