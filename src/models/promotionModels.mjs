@@ -8,7 +8,7 @@ const promotionSchema = new mongoose.Schema({
 	percentage: { type: Number, required: true },
 	start_date: { type: Date, default: Date.now() },
 	end_date: { type: Date , required:true},
-})
+},{ timestamps: true })
 
 const Promotion = mongoose.model('Promotion', promotionSchema);
 export default Promotion;

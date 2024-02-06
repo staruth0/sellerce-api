@@ -34,7 +34,7 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         default: Date.now(),
    }
-})
+},{ timestamps: true })
 
 const Payment = mongoose.model('Payment', paymentSchema);
 export default Payment;

@@ -28,7 +28,7 @@ const adminSchema = new mongoose.Schema({
         enum:['super admin', 'admin']
     },
     previledges:[String],
-})
+},{ timestamps: true })
 
 const Admin = mongoose.model('Admin', adminSchema);
 export default Admin;

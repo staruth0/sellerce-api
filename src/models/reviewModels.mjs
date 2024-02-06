@@ -30,7 +30,7 @@ const reviewSchema = new mongoose.Schema({
         default: Date.now(),
         required:true
     }
-});
+},{ timestamps: true });
 
 const Review = mongoose.model("Review", reviewSchema);
 export default  Review;

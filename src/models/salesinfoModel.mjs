@@ -30,7 +30,7 @@ const salesSchema = new mongoose.Schema({
         default: Date.now()
     },
    
-})
+},{ timestamps: true })
 
 const Sales = mongoose.model('Sales', salesSchema);
 export default Sales;
