@@ -5,7 +5,7 @@ const sessioninfoSchema = new mongoose.Schema({
     session_data:[{}],
 	start_date: { type: Date, default: Date.now() },
 	end_date: { type: Date , required:true},
-})
+},{ timestamps: true })
 
 const Session = mongoose.model('Session', sessioninfoSchema);
 export default Session;

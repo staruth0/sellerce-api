@@ -9,7 +9,7 @@ const favouriteSchema = new mongoose.Schema({
         type: String,
         required:true
     }
-})
+},{ timestamps: true })
 
 const Favourite = mongoose.model('Favourite', favouriteSchema);
 export default Favourite;

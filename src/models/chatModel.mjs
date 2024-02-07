@@ -9,7 +9,7 @@ const ChatSchema = new mongoose.Schema({
 	text: { type: String, required: true, default: "" },
 	timestamp: { type: Date, required: true, default: Date.now() },
 }],
-});
+},{ timestamps: true });
 
 const Chat = mongoose.model("Chat", ChatSchema);
 export default Chat;
