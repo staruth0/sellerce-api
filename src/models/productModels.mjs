@@ -89,6 +89,11 @@ const productSchema = new mongoose.Schema({
     },
     ],
   other_media:[String],
+  timeAdded:{
+    type:Date,
+    trim:true,
+    default: Date.now
+  }
 });
 
 const Product = mongoose.model("Product", productSchema);

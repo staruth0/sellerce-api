@@ -3,7 +3,8 @@ import ProductController from '../controllers/productControllers.mjs';
 const productRouter = express.Router();
 
 // Example: Get all products
-productRouter.get('/AllProducts', ProductController.getAllProducts);
+productRouter.get('/RetrieveProducts/all', ProductController.getAllProducts);
+productRouter.get('/RetrieveProducts?:id',ProductController.getProductById);
 
 // Example: Create a new product
 productRouter.post('/addProduct', ProductController.createProduct);
