@@ -12,7 +12,7 @@ const { jwtStrategy } = require('./config/passport');
 const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
-import { ApiError } from './utils/ApiError';
+const ApiError = require('./utils/ApiError');
 
 const app = express();
 
@@ -64,4 +64,4 @@ app.use(errorConverter);
 // handle error
 app.use(errorHandler);
 
-export { app };
+module.exports = app;
