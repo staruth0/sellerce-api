@@ -1,15 +1,20 @@
 import mongoose from 'mongoose';
-import { app } from './AdminControllers.mjs';
-import { config } from './config/config';
-import { logger } from './config/logger';
+import app from './app.mjs';
+import config from './config/config.mjs';
+import logger from './config/logger.mjs';
 
 let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+mongoose.connect(config.mongoose.url + config.mongoose.databaseName, config.mongoose.options)
+  .then(() => {
+    logger.info('Connected to MongoDB database: ' + config.mongoose.databaseName);
+    server = app.listen(config.port, () => {
+      logger.info(`Listening to port ${config.port}`);
+    });
+  })
+  .catch(error => {
+    logger.error('MongoDB connection error:', error);
+    process.exit(1);
   });
-});
 
 const exitHandler = () => {
   if (server) {
