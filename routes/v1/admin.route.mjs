@@ -3,9 +3,11 @@ import adminController from '../../controllers/admin.controller.mjs'
 const adminRouter = express.Router()
 
 
-adminRouter.post('/', adminController);
+adminRouter.post('/', adminController.createAdmin);
+adminRouter.get('/fetchAll', adminController.getAllAdmins);
 
-adminRouter.delete('/:id', adminController)
+adminRouter.delete('/delete/:id', adminController.deleteAdmin)
+adminRouter.put('/update/:id', adminController.updateAdminPriveledge)
 
 
 
