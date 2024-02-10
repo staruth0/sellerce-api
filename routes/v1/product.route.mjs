@@ -1,5 +1,5 @@
 import express from 'express';
-import ProductController from '../controllers/productControllers.mjs';
+import ProductController from '../../controllers/product.controller.mjs';
 const productRouter = express.Router();
 
 // Example: Get all products

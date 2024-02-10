@@ -1,4 +1,4 @@
-import Product from '../models/productModels.mjs';
+import Product from '../models/product.model.mjs';
 const ProductController = {
   // Example: Get all products
   getAllProducts: async (req, res) => {

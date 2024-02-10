@@ -45,6 +45,17 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    town: {
+      type: String,
+      trim: true,
+      default:'no town'
+    },
+    phone: {
+        type: String,
+        unique: true,
+        trim: true,
+        default:'no number',
+    }
   },
   {
     timestamps: true,
