@@ -5,6 +5,10 @@ const testimonialSchema = new mongoose.Schema({
         type: String,
         required:true,
     },
+    image: {
+        type: String,
+        required:true
+    },
     user_id: {
         type: String,
         required: true
