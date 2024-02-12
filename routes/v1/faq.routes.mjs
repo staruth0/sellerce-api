@@ -5,7 +5,7 @@ const FAQRouter = express.Router()
 
 FAQRouter.post('/create/', FAQController.createFAQ);
 
-FAQRouter.post('/create/', FAQController.getAllFAQ);
+FAQRouter.get('/fetchAll/', FAQController.getAllFAQ);
 
 FAQRouter.delete('/delete/:id', FAQController.deleteFAQ)
 

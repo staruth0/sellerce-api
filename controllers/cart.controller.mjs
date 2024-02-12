@@ -25,13 +25,13 @@ const cartController = {
 
 updateAddCartItems: async (req, res) => {
   try {
-    const { cart_id } = req.params;
-    const cartToUpdate = await Cart.findOne({ cart_id });
+    const { user_id } = req.params;
+    const cartToUpdate = await Cart.findOne({ user_id: user_id });
 
     if (!cartToUpdate) {
       return res.status(404).send('Could not find cart');
     }
-
+    
     const { product_id, quantity, price } = req.body;
     const newItem = { product_id, quantity, price };
 
@@ -48,8 +48,8 @@ updateAddCartItems: async (req, res) => {
 
 updateRemoveCartItems: async (req, res) => {
   try {
-    const { cart_id, product_id } = req.params;
-    const cartToUpdate = await Cart.findOne({ cart_id });
+    const { user_id, product_id } = req.params;
+    const cartToUpdate = await Cart.findOne({user_id:user_id });
 
     if (!cartToUpdate) {
       return res.status(404).send('Could not find cart');
@@ -63,14 +63,50 @@ updateRemoveCartItems: async (req, res) => {
     console.error(error);
     res.status(500).send('Error updating items in cart');
   }
+  },
+    
+updateQuantityAndPriceOfItem: async (req, res) => {
+  try {
+    const { user_id, product_id } = req.params;
+    const cartToUpdate = await Cart.findOne({user_id:user_id });
+
+    if (!cartToUpdate) {
+      return res.status(404).send('Could not find cart');
+    }
+    const { quantity } = req.body;
+
+    cartToUpdate.items.forEach(item => {
+      if (item => item.product_id === product_id) {
+        item.quantity = quantity;
+        item.price = item.price * quantity;
+       }
+    });;
+    
+    const updatedCart = await cartToUpdate.save();
+
+    res.status(200).json(updatedCart);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating items in cart');
+  }
     },
 
  deleteCart: async (req, res) => {
         try {
-            const { cart_id } = req.params;
-            const deletedCart = await Cart.findByIdAndDelete( cart_id );
+          const { user_id } = req.params;
+          const cardtodelete = await Cart.findOne({ user_id: user_id });
+        
+          if (!cardtodelete) {
+               return res.status(404).send('Could not find cart');
+           }
+
+          const uid = cardtodelete._id;
+          const deletedCart = await Cart.findByIdAndDelete( uid );
             
-            res.status(200).send('success in deleting card');
+          res.status(200).json({
+            message: 'success deleting cart',
+            deletedCart,
+            });
         } catch (error) {
             console.error(error);
             res.status(500).send('There was an error deleting the cart.');

@@ -4,16 +4,16 @@ import config from './config/config.mjs';
 import logger from './config/logger.mjs';
 
 let server;
-mongoose.connect(config.mongoose.url + config.mongoose.databaseName, config.mongoose.options)
+mongoose.connect(process.env.MONGODB_URL, config.mongoose.options)
   .then(() => {
     logger.info('Connected to MongoDB database: ' + config.mongoose.databaseName);
     server = app.listen(config.port, () => {
       logger.info(`Listening to port ${config.port}`);
-    });
+    }); 
   })
   .catch(error => {
     logger.error('MongoDB connection error:', error);
-    process.exit(1);
+    process.exit(1); 
   });
 
 const exitHandler = () => {

@@ -5,7 +5,7 @@ const paymentRouter = express.Router()
 
 paymentRouter.post('/', paymentController);
 
-paymentRouter.delete('/:id', paymentController)
+paymentRouter.delete('/:id', paymentController);
 
 
 

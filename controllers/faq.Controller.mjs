@@ -24,10 +24,17 @@ const FAQController = {
   deleteFAQ: async (req, res) => {
     try {
       const { id } = req.params;
-      const deletedfaq = await FAQ.findByIdAndDelete(id);
+      const faq = await FAQ.findOne({ id: id });
+      
+      const uid = faq._id;
+
+      const deletedfaq = await FAQ.findByIdAndDelete(uid);
 
       deletedfaq
-        ? res.status(200).send("success")
+        ? res.status(200).json({
+          message: 'success',
+          deletedfaq,
+        })
         : res.status(404).send(`couldnt find any question of id ${id}`);
     } catch (error) {
       console.error(error);
@@ -38,7 +45,11 @@ const FAQController = {
   updateFAQ: async (req, res) => {
     try {
       const id = req.params.id;
-      const updatedFAQ = await FAQ.findByIdAndUpdate(id, req.body, {
+      const faq = await FAQ.findOne({ id: id })
+      
+      const uid = faq._id;
+
+      const updatedFAQ = await FAQ.findByIdAndUpdate(uid, req.body, {
         new: true,
       });
 
