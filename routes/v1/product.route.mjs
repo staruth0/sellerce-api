@@ -1,47 +1,47 @@
 import express from 'express';
 import * as ProductController from '../../controllers/product.controller.mjs';
-// import validate from '../../middlewares/validate.mjs';
-// import { searchProductsByNameValidation, searchProductsByCategoryValidation, searchProductsByLastDayUpdatedValidation, searchProductsByModelValidation, searchProductsByYearIntroducedValidation, createProductValidation, updateProductByIdValidation, deleteProductByIdValidation, getProductByIdValidation, setProductDisplayPeriodValidation, getProductAmountLeftByIdValidation, getProductAmountLeftByModelValidation, getProductAmountLeftByProductIdAndColorValidation } from '../../validations/product.validation.mjs';
-
+import validate from '../../middlewares/validate.mjs';
+import {ProductValidation} from '../../validations/index.mjs' 
+import { updateProductByIdValidation } from '../../validations/product.validation.mjs';
 const productRouter = express.Router();
 
 // Search products by name
-productRouter.get('/search/name/:name', /*validate(searchProductsByNameValidation),*/ ProductController.searchProductsByName);
+productRouter.get('/search/name', /*validate(searchProductsByNameValidation),*/ ProductController.searchProductsByName);
 
 // Search products by category
-productRouter.get('/search/category/:category'/*, validate(searchProductsByCategoryValidation) */, ProductController.searchProductsByCategory);
+productRouter.get('/search/category'/*, validate(searchProductsByCategoryValidation) */, ProductController.searchProductsByCategory);
 
 // Search products by Last_day_updated
-productRouter.get('/search/last-day-updated/:lastDayUpdated'/** , validate(searchProductsByLastDayUpdatedValidation)*/, ProductController.searchProductsByLastDayUpdated);
+productRouter.get('/search/last-day-updated'/** , validate(searchProductsByLastDayUpdatedValidation)*/, ProductController.searchProductsByLastDayUpdated);
 
 // Fetch featured products
 productRouter.get('/featured', ProductController.fetchFeaturedProducts);
 
 // Search products by model
-productRouter.get('/search/model/:model', /**validate(searchProductsByModelValidation), */ ProductController.searchProductsByModel);
+productRouter.get('/search/model', /**validate(searchProductsByModelValidation), */ ProductController.searchProductsByModel);
 
 // Search products by year introduced
 productRouter.get('/search/year-introduced/:year', /**validate(searchProductsByYearIntroducedValidation), */ ProductController.searchProductsByYearIntroduced);
 
 // Create product
-productRouter.post('/',/** validate(createProductValidation), */ ProductController.createProductHandler);
+productRouter.post('/',validate(ProductValidation.createProductValidation), ProductController.createProductHandler);
 
 // Update product by ID
-productRouter.put('/:productId', /**validate(updateProductByIdValidation), */ ProductController.updateProductByIdHandler);
+productRouter.put('/:productId', validate(ProductValidation.updateProductByIdValidation), ProductController.updateProductByIdHandler);
 
 // Delete product by ID
 productRouter.delete('/:productId', /**validate(deleteProductByIdValidation), */ ProductController.deleteProductByIdHandler);
 
 // Get product by ID
-productRouter.get('/:productId', /**validate(getProductByIdValidation), */ ProductController.getProductByIdHandler);
+productRouter.get('/:productId', validate(ProductValidation.getProductByIdValidation),ProductController.getProductByIdHandler);
 
 // Calculate out of stock products
-productRouter.get('/out-of-stock', ProductController.calculateOutOfStockProductsHandler);
+productRouter.get('/your-out-of-stock/not-available', ProductController.calculateOutOfStockProductsHandler);
 
 // Check if product is out of stock by ID
 productRouter.get('/:productId/out-of-stock', /**validate(getProductAmountLeftByIdValidation), */ ProductController.isProductOutOfStockHandler);
 
-// Set product display period
+// Set product display period################### Not yet implemented
 productRouter.put('/:productId/display-period', /**validate(setProductDisplayPeriodValidation) ,*/ ProductController.setProductDisplayPeriodHandler);
 
 // Select hero product
@@ -57,7 +57,7 @@ productRouter.get('/:productId/amount-left-by-model/:model',/**validate(getProdu
 productRouter.get('/:productId/amount-left-by-color/:color', /**validate(getProductAmountLeftByProductIdAndColorValidation), */ ProductController.getProductAmountLeftByProductIdAndColorHandler);
 
 // Count products
-productRouter.get('/count', ProductController.countProductsController);
+productRouter.get('/count/total', ProductController.countProductsController);
 
 // Get all products
 productRouter.get('/', ProductController.getAllProductsController);

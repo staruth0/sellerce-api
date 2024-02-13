@@ -96,7 +96,7 @@ const appleCategorySchemas = {
           trim: true,
         },
         year_introduced: {
-          type: Number,
+          type:String,
           required: true,
         },
         price: {
@@ -164,7 +164,7 @@ const appleCategorySchemas = {
           trim: true,
         },
         year_introduced: {
-          type: Number,
+          type:String,
           required: true,
         },
         strap_material: { 
@@ -287,14 +287,14 @@ const appleCategorySchemas = {
           required: true,
         },
         year_introduced: {
-          type: Number,
+          type:String,
           required: true,
         },
         salescount:{
           type:Number,
           default:0
         },
-        storageMapacity: { 
+        storageCapacity: { 
           type: String, 
           required: true 
         },

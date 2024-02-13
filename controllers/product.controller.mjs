@@ -1,5 +1,7 @@
 import * as productService from '../services/product.service.mjs'
 import httpStatus from 'http-status';
+// import mongoose from 'mongoose';
+import ApiError from '../utils/ApiError.mjs';
 /**
  * Search products by name(controller for getProductsById)
  * @param {string} name - The name or part of the name to search for
@@ -8,12 +10,12 @@ import httpStatus from 'http-status';
 
 const searchProductsByName = async (req, res) => {
   try {
-    const query = req.query.query; // Assuming the search term is passed in the query parameter
-    const products = await productService.getProductsByName(query);
-    res.json(products);
+    const name = req.query.name; 
+    const products = await productService.getProductsByName(name);
+    res.status(httpStatus.OK).json(products);
   } catch (error) {
     console.error('Error searching products by name:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
   }
 };
 
@@ -25,7 +27,8 @@ const searchProductsByName = async (req, res) => {
  */
 const searchProductsByCategory = async (req, res, next) => {
   try {
-    const { category } = req.query;
+    const category = req.query.category;
+    
     const products = await productService.getProductsByCategory(category);
     res.status(httpStatus.OK).json(products);
   } catch (error) {
@@ -41,7 +44,7 @@ const searchProductsByCategory = async (req, res, next) => {
  */
 const searchProductsByLastDayUpdated = async (req, res, next) => {
   try {
-    const { lastDayUpdated } = req.query;
+    const lastDayUpdated= req.query.day_updated;
     const products = await productService.getProductsByLastDayUpdated(lastDayUpdated);
     res.status(httpStatus.OK).json(products);
   } catch (error) {
@@ -73,7 +76,7 @@ const fetchFeaturedProducts = async (req, res, next) => {
  */
 const searchProductsByModel = async (req, res, next) => {
   try {
-    const { model } = req.params;
+    const model = req.query.model;
 
     // Call the service function to search products by model with partial matching
     const products = await productService.getProductsByModel(model);
@@ -133,7 +136,10 @@ const updateProductByIdHandler = async (req, res, next) => {
   try {
     const { productId } = req.params;
     const product = await productService.updateProductById(productId, req.body);
-    res.json(product);
+    res.status(200).json({
+      message: 'Product updated successfully',
+      product: product
+    });
   } catch (error) {
     next(error);
   }
@@ -148,12 +154,15 @@ const updateProductByIdHandler = async (req, res, next) => {
 const deleteProductByIdHandler = async (req, res, next) => {
   try {
     const { productId } = req.params;
-    const product = await productService.deleteProductById(productId);
-    res.json(product);
+    await productService.deleteProductById(productId);
+    res.status(200).json({
+      message: 'Product deleted successfully'
+    });
   } catch (error) {
     next(error);
   }
 };
+
 
 /**
  * Controller function to get a product by its ID
@@ -165,11 +174,17 @@ const getProductByIdHandler = async (req, res, next) => {
   try {
     const { productId } = req.params;
     const product = await productService.getProductById(productId);
-    res.json(product);
+    if(!product){
+      throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+    }
+    // If the product is found, respond with the product data
+    res.status(httpStatus.OK).json(product);
   } catch (error) {
+    // If any other error occurs during the process, forward it to the error handling middleware
     next(error);
   }
 };
+
 
 /**
  * Controller function for calculating the number of out of stock products
@@ -194,13 +209,22 @@ const calculateOutOfStockProductsHandler = async (req, res, next) => {
 */
 const isProductOutOfStockHandler = async (req, res, next) => {
   try {
-      const { productId } = req.params;
-      const isOutOfStock = await productService.isProductOutOfStock(productId);
-      res.status(httpStatus.OK).json({ isOutOfStock });
+    const { productId } = req.params;
+    console.log('############# product identificatino #################', productId)
+    // Check if the product exists
+    const product = await productService.getProductById(productId);
+    if (!product) {
+      return res.status(httpStatus.NOT_FOUND).json({ error: 'Product not found' });
+    }
+
+    // Product exists, now check if it's out of stock
+    const isOutOfStock = await productService.isProductOutOfStock(productId);
+    res.status(httpStatus.OK).json({ isOutOfStock });
   } catch (error) {
-      next(error);
+    next(error);
   }
 };
+
 
 /**
 * Controller function for setting product display period

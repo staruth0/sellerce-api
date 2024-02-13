@@ -1,6 +1,7 @@
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError.mjs';
 import {BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop}  from '../models/product.model.mjs';
+import {toSingular} from '../utils/helperFunctions.mjs'
 // import { BaseProduct } from '../models/product.model.mjs';
 
 /**
@@ -57,7 +58,7 @@ const updateProductById = async (productId, updateBody) => {
 
         // Check if the product exists
         if (!product) {
-            throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+            throw new ApiError(httpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
         }
 
         // Apply updates from updateBody to the product
@@ -82,7 +83,7 @@ const updateProductById = async (productId, updateBody) => {
 const deleteProductById = async (productId) => {
     const product = await getProductById(productId);
     if (!product) {
-        throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+        throw new ApiError(httpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
     }
     await product.remove();
     return product;
@@ -95,16 +96,18 @@ const deleteProductById = async (productId) => {
  */
 const getProductById = async (id) => {
     try {
-        const product = await BaseProduct.findById(id);
-        if (!product) {
-            throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
+        
+        const filter= {
+            product_id:id
         }
+        const product = await BaseProduct.findOne(filter);
         return product;
     } catch (error) {
         console.error(`Error getting product by ID: ${error}`);
-        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to get product by ID');
+        throw new ApiError(httpStatus.NOT_FOUND, 'Error Getting the product');
     }
 };
+
 //**************************************************************** */
 
 /**
@@ -192,12 +195,12 @@ const getProductAmountLeftById = async (productId) => {
         const product = await getProductById(productId);
 
         if (!product) {
-            throw new ApiError(HttpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
+            throw new ApiError(httpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
         }
 
         // Check if quantity_in_stock is present and non-negative
         if (product.quantity_in_stock === undefined || product.quantity_in_stock < 0) {
-            throw new ApiError(HttpStatus.BAD_REQUEST, `Quantity information is missing or invalid for product with ID ${productId}`);
+            throw new ApiError(httpStatus.BAD_REQUEST, `Quantity information is missing or invalid for product with ID ${productId}`);
         }
 
         // Using the total quantity directly from the product's quantity_in_stock attribute
@@ -227,19 +230,18 @@ const getProductAmountLeftByModel = async (productId, model) => {
         const product = await getProductById(productId);
 
         if (!product) {
-            throw new ApiError(HttpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
+            throw new ApiError(httpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
         }
-
         // Find the variant with the specified model
         const variant = product.variants.find(v => v.model === model);
 
         if (!variant) {
-            throw new ApiError(HttpStatus.NOT_FOUND, `Product variant with model ${model} not found`);
+            throw new ApiError(httpStatus.NOT_FOUND, `Product variant with model ${model} not found`);
         }
 
         // Check if quantity_in_stock is present and non-negative
         if (variant.model_quantity_in_stock === undefined || variant.model_quantity_in_stock < 0) {
-            throw new ApiError(HttpStatus.BAD_REQUEST, `Quantity information is missing or invalid for product variant with model ${model}`);
+            throw new ApiError(httpStatus.BAD_REQUEST, `Quantity information is missing or invalid for product variant with model ${model}`);
         }
 
         // Using the total quantity directly from the variant's model_quantity_in_stock attribute
@@ -251,7 +253,7 @@ const getProductAmountLeftByModel = async (productId, model) => {
         if (error instanceof ApiError) {
             throw error; // Re-throw ApiError
         } else {
-            throw new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, `Failed to get product amount left by model: ${error.message}`);
+            throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Failed to get product amount left by model: ${error.message}`);
         }
     }
 };
@@ -263,32 +265,35 @@ const getProductAmountLeftByModel = async (productId, model) => {
  * @param {string} color - Product color
  * @returns {Promise<number>} - Amount of the product left for the specified product ID and color
  */
-const getProductAmountLeftByProductIdAndColor = async (productId, color) => {
+ const getProductAmountLeftByProductIdAndColor = async (productId, color) => {
     try {
-      // Find the product by product ID
-      const product = await Product.findOne({ product_id: productId });
-  
-      // If the product is not found, return 0 quantity left
-      if (!product) {
-        return 0;
-      }
-  
-      // Find the variant with the specified color
-      const variant = product.variants.find((v) => v.color === color);
-  
-      // If the variant is not found, return 0 quantity left
-      if (!variant) {
-        return 0;
-      }
-  
-      // Return the quantity in stock for the specified color
-      return variant.quantity_in_stock || 0;
+        // Find the product by product ID
+        const product = await getProductById(productId);
+
+        // If the product is not found, return 0 quantity left
+        if (!product) {
+            throw new ApiError(httpStatus.NOT_FOUND, `Product with ID ${productId} not found`);
+        }
+
+        // Find the variant with the specified color
+        const variant = product.variants.find((v) => v.otherVariant.some((ov) => ov.color === color));
+
+        // If the variant is not found, return 0 quantity left
+        if (!variant) {
+            throw new ApiError(httpStatus.NOT_FOUND, `Product variant with color ${color} not found`);
+        }
+
+        // Find the specific color variant
+        const colorVariant = variant.otherVariant.find((ov) => ov.color === color);
+
+        // Return the quantity in stock for the specified color
+        return colorVariant.color_quantity_in_stock || 0;
     } catch (error) {
-      console.error(`Error getting product amount left by product ID and color: ${error}`);
-      throw new Error(`Failed to get product amount left by product ID and color: ${error.message}`);
+        console.error(`Error getting product amount left by product ID and color: ${error}`);
+        throw new Error(`Failed to get product amount left by product ID and color: ${error.message}`);
     }
-  };
-  
+};
+
   /**
  * Count the total number of products
  * @returns {Promise<number>} - The total number of products
@@ -309,7 +314,7 @@ const countProducts = async () => {
         return totalCount;
     } catch (error) {
         console.error(`Error counting products: ${error.message}`);
-        throw new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, `Failed to count products: ${error.message}`);
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Failed to count products: ${error.message}`);
     }
 };
   
@@ -323,7 +328,7 @@ const getProductsByCategory = async (category) => {
     try {
       // Create a regular expression to match partially
       const regex = new RegExp(category, 'i');
-      
+      console.log('################### regex: ', regex, ' category: ', category )
       // Retrieve products by category from the database with partial match
       const products = await BaseProduct.find({ category: regex });
     
@@ -344,6 +349,7 @@ const getProductsByCategory = async (category) => {
 const getProductsByName = async (name) => {
     try {
         // Query the database for products with matching names
+        
         const products = await BaseProduct.find({ name: { $regex: new RegExp(name, 'i') } });
 
         return products;
@@ -364,20 +370,30 @@ const getProductsByName = async (name) => {
  */
 const getProductsByLastDayUpdated = async (lastDayUpdated) => {
     try {
-      // Create a regular expression to match partially
-      const regex = new RegExp(lastDayUpdated, 'i');
-      
-      // Retrieve products by Last_day_updated from the database with partial match
-      const products = await BaseProduct.find({ Last_day_updated: regex });
-    
-      // Return the retrieved products
-      return products;
+        // Convert the lastDayUpdated parameter to a Date object
+        const lastDayUpdatedDate = new Date(lastDayUpdated);
+
+        // Calculate the next day to include all dates for the given day
+        const nextDay = new Date(lastDayUpdatedDate);
+        nextDay.setDate(lastDayUpdatedDate.getDate() + 1);
+
+        // Retrieve products with Last_day_updated falling within the specified date range
+        const products = await BaseProduct.find({
+            Last_day_updated: {
+                $gte: lastDayUpdatedDate,  // Greater than or equal to the specified date
+                $lt: nextDay  // Less than the next day to include all dates for the given day
+            }
+        });
+
+        // Return the retrieved products
+        return products;
     } catch (error) {
-      // Handle any errors
-      console.error('Error retrieving products by Last_day_updated:', error);
-      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to retrieve products by Last_day_updated');
+        // Handle any errors
+        console.error('Error retrieving products by Last_day_updated:', error);
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to retrieve products by Last_day_updated');
     }
-  };
+};
+
 
 /************************************************************************ */
 
@@ -427,10 +443,8 @@ const getProductsByYearIntroduced = async (year) => {
     try {
       // Create a regular expression to match partially
       const regex = new RegExp(year, 'i');
-  
       // Retrieve products by year introduced from the database with partial match
       const products = await BaseProduct.find({ 'variants.year_introduced': regex });
-  
       // Return the retrieved products
       return products;
     } catch (error) {

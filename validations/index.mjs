@@ -1,4 +1,6 @@
-import authValidation from './auth.validation';
-import userValidation from './user.validation';
+import * as authValidation from './auth.validation.mjs';
+import * as userValidation from './user.validation.mjs';
+import * as ProductValidation from './product.validation.mjs'
+import * as customValidation from './custom.validation.mjs'
 
-export { authValidation, userValidation };
+export { authValidation, userValidation,ProductValidation, customValidation };
