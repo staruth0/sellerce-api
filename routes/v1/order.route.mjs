@@ -1,11 +1,13 @@
 import express from "express";
-import orderController from '../../controllers/cart.controller.mjs'
+import ordersController from '../../controllers/order.controller.mjs'
 const orderRouter = express.Router()
 
 
-orderRouter.post('/', orderController);
+orderRouter.post('/create', ordersController.createOrder);
+orderRouter.get('/fetchAll', ordersController.getAllOrders);
+orderRouter.get('/fetchOne/:order_id', ordersController.getAParticularOrder);
 
-orderRouter.delete('/:id', orderController)
+orderRouter.delete('/:id', ordersController)
 
 
 

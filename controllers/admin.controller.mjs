@@ -43,7 +43,7 @@ deleteAdmin: async (req, res) => {
     try {
       const allAmins = await Admin.find({});
       res.status(201).json(allAmins);
-    } catch (error) {
+    } catch (error) {  
       console.error(error);
       res.status(500).send("error fetching admins");
     }

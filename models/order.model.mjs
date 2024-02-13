@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
         required:true
     },
     user_id: {
-        type: String,
+        type: String, 
         required:true
     },
     products: [{
@@ -32,6 +32,7 @@ const orderSchema = new mongoose.Schema({
     order_status: {
         type: String,
         default: "Pending",
+        enum:['Pending','Delivered','Failed'],
         required: true
     },
     payment_status: {

@@ -1,6 +1,7 @@
 import FAQ from "../models/faq.model.mjs";
 
 const FAQController = {
+  
   createFAQ: async (req, res) => {
     try {
       const faq = await FAQ.create(req.body);
@@ -27,7 +28,6 @@ const FAQController = {
       const faq = await FAQ.findOne({ id: id });
       
       const uid = faq._id;
-
       const deletedfaq = await FAQ.findByIdAndDelete(uid);
 
       deletedfaq
@@ -38,7 +38,7 @@ const FAQController = {
         : res.status(404).send(`couldnt find any question of id ${id}`);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error creating FAQ");
+      res.status(500).send("error deleting FAQ");
     }
   },
 
