@@ -1,37 +1,38 @@
-import Testimonial from "../models/testimonial.model.mjs";
+import httpStatus from "http-status";
+import { createTestimonial,getAllTestimonials,deleteTestimonial} from "../services/testimonialService.js";
 
 const testimonialController = {
   createTestimonial: async (req, res) => {
     try {
-      const testimonialData = await Testimonial.create(req.body);
-      res.status(201).json(testimonialData);
+      const newTestimonial = await createTestimonial(req.body);
+      res.status(httpStatus.CREATED).json(newTestimonial);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error creating testimonial");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error creating testimonial");
     }
   },
 
-  getAllTestimonial: async (req, res) => {
+  getAllTestimonials: async (req, res) => {
     try {
-      const alltestimonial = await Testimonial.find({});
-      res.status(200).json(alltestimonial);
+      const allTestimonials = await getAllTestimonials();
+      res.status(httpStatus.OK).json(allTestimonials);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error fetching all testimonial");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching all testimonials");
     }
   },
 
   deleteTestimonial: async (req, res) => {
     try {
-      const { id } = req.params;
-      const result = await Testimonial.findByIdAndDelete(id);
+      const { testimonial_id } = req.params;
+      const result = await deleteTestimonial(testimonial_id);
 
       result
-        ? res.status(200).send("successfully deleted")
-        : res.status(404).send("no testimonial found");
+        ? res.status(httpStatus.OK).send("Successfully deleted testimonial")
+        : res.status(httpStatus.NOT_FOUND).send("No testimonial found");
     } catch (error) {
       console.error(error);
-      res.status(500).send("error deleting testimonial");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error deleting testimonial");
     }
   },
 };

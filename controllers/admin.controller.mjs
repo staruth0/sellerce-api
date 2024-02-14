@@ -1,75 +1,56 @@
-import Admin from "../models/admin.model.mjs";
+import httpStatus from "http-status";
+import { createAdmin, deleteAdmin, getAllAdmins, updateAdminPrivileges,} from "../services/adminService.js";
 
 const adminController = {
   createAdmin: async (req, res) => {
     try {
-      const admin = await Admin.create(req.body);
-      res.status(201).json(admin);
+      const admin = await createAdmin(req.body);
+      res.status(httpStatus.CREATED).json(admin);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error creating admin user");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error creating admin user");
     }
   },
 
-deleteAdmin: async (req, res) => {
-  try {
-    const { id } = req.params;
-    const deleteAdmin = await Admin.findOne({ admin_id: id });
+  deleteAdmin: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedAdmin = await deleteAdmin(id);
 
-    if (deleteAdmin) {
-      const idd = deleteAdmin._id;
-      const deletedAdmin = await Admin.findByIdAndDelete(idd);
-
-      deletedAdmin ? res.status(200).json({
-            message: "Success deleting admin",
-            deletedAdmin,
-          }) : res.status(404).json({
-            message: `Couldn't find admin with ID: ${id}`
-          });
-    } else {
-      res.status(404).json({
-        message: `Couldn't find admin with ID: ${id}`
+      res.status(httpStatus.OK).json({
+        message: "Success deleting admin",
+        deletedAdmin,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+        message: "Error deleting admin",
       });
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Error deleting admin"
-    });
-  }
-},
+  },
 
   getAllAdmins: async (req, res) => {
     try {
-      const allAmins = await Admin.find({});
-      res.status(201).json(allAmins);
-    } catch (error) {  
+      const allAdmins = await getAllAdmins();
+      res.status(httpStatus.OK).json(allAdmins);
+    } catch (error) {
       console.error(error);
-      res.status(500).send("error fetching admins");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching admins");
     }
   },
 
-updateAdminPriveledge: async (req, res) => {
-  try {
-    const { id } = req.params;
-    const admin = await Admin.findOne({ admin_id: id });
+  updateAdminPrivileges: async (req, res) => {
+    try {
+      const { admin_id } = req.params;
+      const { privileges } = req.body;
 
-    if (!admin) {
-      return res.status(404).json({
-        message: "Admin not found",
-      });
-    } else {
-      const { previledges } = req.body;
-      const id = admin._id;
-
-      const updatedAdmin = await Admin.findByIdAndUpdate( id,{ $push: { previledges: { $each: previledges } } },{new:true});
-      res.status(200).json(updatedAdmin);
+      const updatedAdmin = await updateAdminPrivileges(admin_id, privileges);
+      res.status(httpStatus.OK).json(updatedAdmin);
+    } catch (error) {
+      console.error(error);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error updating admin privileges");
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error updating admin previledges");
-  }
-}
+  },
 };
 
 export default adminController;

@@ -12,7 +12,8 @@ const orderSchema = new mongoose.Schema({
     products: [{
        product_id:{type:String, required:true},
        quantity: { type: Number, required: true },
-       price:{type:Number, required:true}
+        price: { type: Number, required: true },
+       color:{type:String,required:true}
     }],
     delivery_info: {
         tracking_number: {

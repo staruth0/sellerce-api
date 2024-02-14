@@ -1,13 +1,14 @@
-import Cart from '../models/cart.model.mjs';
+import httpStatus from "http-status";
+import { createCart, getCardById, updateAddCartItems,updateRemoveCartItems,updateQuantityAndPriceOfItem,deleteCart} from "../services/cart.service.mjs";
 
 const cartController = {
     createCart: async (req, res) => {
         try {
-            const cartDetail = await Cart.create(req.body);
-            res.status(200).send(cartDetail);
+            const cartDetail = await createCart(req.body)
+            res.status(httpStatus.CREATED).json(cartDetail);
         } catch (error) {
             console.error(error);
-            res.status(500).send('There was an error creating the cart.');
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).send('There was an error creating the cart.');
         }
     },
     
@@ -15,33 +16,22 @@ const cartController = {
     getCartDetail: async (req, res) => {
         try {
             const { user_id } = req.params;
-            const cartDetails = await Cart.findOne({user_id:user_id});
-            res.status(200).send(cartDetails);
+            const cart = await getCardById(user_id)
+            res.status(200).json(cart)
         } catch (error) {
             console.error(error);
-            res.status(500).send('There was an error fetching the cart detail.');
+            res.status(httpStatus.INTERNAL_SERVER_ERROR).send('There was an error fetching the cart detail.');
         }
     },
 
 updateAddCartItems: async (req, res) => {
   try {
     const { user_id } = req.params;
-    const cartToUpdate = await Cart.findOne({ user_id: user_id });
-
-    if (!cartToUpdate) {
-      return res.status(404).send('Could not find cart');
-    }
-    
-    const { product_id, quantity, price } = req.body;
-    const newItem = { product_id, quantity, price };
-
-    cartToUpdate.items.push(newItem);
-    const updatedCart = await cartToUpdate.save();
-
-    res.status(200).json(updatedCart);
+    const cart = await updateAddCartItems(user_id, req.body);
+    res.status(httpStatus.OK).json(cart);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error updating items in cart');
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error updating items in cart');
   }
 }
     ,
@@ -49,69 +39,47 @@ updateAddCartItems: async (req, res) => {
 updateRemoveCartItems: async (req, res) => {
   try {
     const { user_id, product_id } = req.params;
-    const cartToUpdate = await Cart.findOne({user_id:user_id });
-
-    if (!cartToUpdate) {
-      return res.status(404).send('Could not find cart');
-    }
-
-    cartToUpdate.items = cartToUpdate.items.filter(item => item.product_id !== product_id);
-    const updatedCart = await cartToUpdate.save();
-
-    res.status(200).json(updatedCart);
+    const newCart = await updateRemoveCartItems(user_id, product_id)
+    res.status(httpStatus.OK).json(newCart)
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error updating items in cart');
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send('Error updating items in cart');
   }
   },
     
-updateQuantityAndPriceOfItem: async (req, res) => {
-  try {
-    const { user_id, product_id } = req.params;
-    const cartToUpdate = await Cart.findOne({user_id:user_id });
+  updateQuantityAndPriceOfItem: async (req, res) => {
+    try {
+      const { user_id, product_id } = req.params;
+      const { quantity } = req.body;
 
-    if (!cartToUpdate) {
-      return res.status(404).send('Could not find cart');
+      const updatedCart = await updateQuantityAndPriceOfItem(
+        user_id,
+        product_id,
+        quantity
+      );
+
+      res.status(httpStatus.OK).json(updatedCart);
+    } catch (error) {
+      console.error(error);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error updating items in cart");
     }
-    const { quantity } = req.body;
+  },
 
-    cartToUpdate.items.forEach(item => {
-      if (item => item.product_id === product_id) {
-        item.quantity = quantity;
-        item.price = item.price * quantity;
-       }
-    });;
-    
-    const updatedCart = await cartToUpdate.save();
+  deleteCart: async (req, res) => {
+    try {
+      const { user_id } = req.params;
 
-    res.status(200).json(updatedCart);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error updating items in cart');
-  }
-    },
+      const deletedCart = await deleteCart(user_id);
 
- deleteCart: async (req, res) => {
-        try {
-          const { user_id } = req.params;
-          const cardtodelete = await Cart.findOne({ user_id: user_id });
-        
-          if (!cardtodelete) {
-               return res.status(404).send('Could not find cart');
-           }
-
-          const uid = cardtodelete._id;
-          const deletedCart = await Cart.findByIdAndDelete( uid );
-            
-          res.status(200).json({
-            message: 'success deleting cart',
-            deletedCart,
-            });
-        } catch (error) {
-            console.error(error);
-            res.status(500).send('There was an error deleting the cart.');
-        }
-    },
+      res.status(httpStatus.OK).json({
+        message: "Success deleting cart",
+        deletedCart,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("There was an error deleting the cart.");
+    }
+  },
 
 };
 
