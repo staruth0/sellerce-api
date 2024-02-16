@@ -20,44 +20,44 @@ const faqController = {
       console.error(error);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching FAQ");
     }
-  },
+  }, 
 
-  deleteFAQ: async (req, res) => {
-    try {
-      const { id } = req.params;
+ deleteFAQ: async (req, res) => {
+  try {
+    const { faq_id } = req.params;
 
-      const deletedFAQ = await deleteFAQ(id);
+    const deletedFAQ = await deleteFAQ(faq_id);
 
-      if (deletedFAQ) {
-        res.status(httpStatus.OK).json({
-          message: "Success deleting faq",
-          deletedFAQ,
-        });
-      } else {
-        res.status(httpStatus.NOT_FOUND).send(`Couldn't find any question of id ${id}`);
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error deleting FAQ");
+    if (deletedFAQ) {
+      res.status(httpStatus.OK).json({
+        message: "Success deleting FAQ",
+        deletedFAQ,
+      });
+    } else {
+      res.status(httpStatus.NOT_FOUND).send(`Couldn't find any FAQ with id ${faq_id}`);
     }
-  },
+  } catch (error) {
+    console.error(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error deleting FAQ");
+  }
+},
 
-  updateFAQ: async (req, res) => {
-    try {
-      const { id } = req.params;
+updateFAQ: async (req, res) => {
+  try {
+    const { faq_id } = req.params;
 
-      const updatedFAQ = await updateFAQ(id, req.body);
+    const updatedFAQ = await updateFAQ(faq_id, req.body);
 
-      if (updatedFAQ) {
-        res.status(httpStatus.OK).json(updatedFAQ);
-      } else {
-        res.status(httpStatus.NOT_FOUND).send(`Couldn't find FAQ with id: ${id}`);
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error updating FAQ");
+    if (updatedFAQ) {
+      res.status(httpStatus.OK).json(updatedFAQ);
+    } else {
+      res.status(httpStatus.NOT_FOUND).send(`Couldn't find FAQ with id: ${faq_id}`);
     }
-  },
+  } catch (error) {
+    console.error(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error updating FAQ");
+  }
+},
 };
 
 export default faqController;

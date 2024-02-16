@@ -48,7 +48,10 @@ const ordersController = {
         return;
       }
       const deletedOrder = await deleteOrder(id);
-      res.status(httpStatus.OK).json(deletedOrder);
+      res.status(httpStatus.OK).json({
+        message:'success deleting order',
+        deletedOrder
+      });
     } catch (error) {
       console.error(error);
       res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Internal server error while deleting order");

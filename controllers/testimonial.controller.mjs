@@ -28,7 +28,7 @@ const testimonialController = {
       const result = await deleteTestimonial(testimonial_id);
 
       result
-        ? res.status(httpStatus.OK).send("Successfully deleted testimonial")
+        ? res.status(httpStatus.OK).json({message:"Successfully deleted testimonial", result})
         : res.status(httpStatus.NOT_FOUND).send("No testimonial found");
     } catch (error) {
       console.error(error);

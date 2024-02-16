@@ -35,7 +35,7 @@ const reviewController = {
     }
   },
 
-  getReviewByUserName: async (req, res) => {
+  getReviewByUserName: async (req,res) => {
     try {
       const { username } = req.params;
       const reviews = await getReviewByUserName(username);
@@ -73,7 +73,8 @@ const reviewController = {
 
   getReviewByDateAdded: async (req, res) => {
     try {
-      const { date } = req.params;
+      const  date  = new Date(req.params.date);
+
       const reviews = await getReviewByDateAdded(date);
 
       res.status(httpStatus.OK).json(reviews);

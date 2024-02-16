@@ -6,7 +6,7 @@ testimonialRouter.post("/create/", testimonialController.createTestimonial);
 
 testimonialRouter.get("/fetchall/", testimonialController.getAllTestimonials);
 
-testimonialRouter.delete("delete/:id", testimonialController.deleteTestimonial);
+testimonialRouter.delete("/delete/:id", testimonialController.deleteTestimonial);
 
 export default testimonialRouter;
  

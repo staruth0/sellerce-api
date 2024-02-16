@@ -7,10 +7,10 @@ reviewRouter.post('/create', reviewController.createReview);
 
 reviewRouter.get('/fetchAll', reviewController.getAllReviews);
 
-reviewRouter.get('/fetchAll/:username', reviewController.getReviewByUserName);
-reviewRouter.get('/fetctAll/:productname', reviewController.getReviewByProductName);
-reviewRouter.get('/fetchAll/:rating', reviewController.getReviewByRating);
-reviewRouter.get('/fetchAll/:date', reviewController.getReviewByDateAdded);
+reviewRouter.get('/fetchAllbyusername/:username', reviewController.getReviewByUserName);
+reviewRouter.get('/fetctAllbyproductname/:productname', reviewController.getReviewByProductName);
+reviewRouter.get('/fetchAllbyrating/:rating', reviewController.getReviewByRating);
+reviewRouter.get('/fetchAllbydate/:date', reviewController.getReviewByDateAdded);
 
 reviewRouter.delete('/delete/:id', reviewController.deleteReview);
 

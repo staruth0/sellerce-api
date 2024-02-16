@@ -7,7 +7,7 @@ adminRouter.post('/create', adminController.createAdmin);
 adminRouter.get('/fetchAll', adminController.getAllAdmins);
 
 adminRouter.delete('/delete/:id', adminController.deleteAdmin)
-adminRouter.put('/update/:id', adminController.updateAdminPrivileges)
+adminRouter.put('/update/:admin_id', adminController.updateAdminPrivileges)
 
 
 

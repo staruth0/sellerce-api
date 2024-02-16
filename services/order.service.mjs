@@ -11,7 +11,7 @@ const createOrder = async (orderData) => {
     return newOrder;
   } catch (error) {
     console.error(error);
-    throw new Error("Error creating order");
+    throw new Error("Error creating order"); 
   }
 };
 

@@ -24,7 +24,7 @@ const createAdmin = async (adminData) => {
  */
 const deleteAdmin = async (adminId) => {
   try {
-    const deleteAdmin = await Admin.findOne({ admin_id: adminId });
+    const deleteAdmin = await Admin.findOne({admin_id: adminId});
 
     if (!deleteAdmin) {
       throw new Error(`Couldn't find admin with ID: ${adminId}`);
@@ -55,12 +55,12 @@ const getAllAdmins = async () => {
 /**
  * Update admin privileges by ID
  * @param {string} adminId 
- * @param {Array<string>} privileges 
+ * @param {Array<string>} previledges 
  * @returns {Promise<object>} 
  */
-const updateAdminPrivileges = async (adminId, privileges) => {
+const updateAdminPrivileges = async (adminId, previledges) => {
   try {
-    const admin = await Admin.findOne({ admin_id: adminId });
+    const admin = await Admin.findOne({admin_id: adminId});
 
     if (!admin) {
       throw new Error("Admin not found");
@@ -68,9 +68,10 @@ const updateAdminPrivileges = async (adminId, privileges) => {
 
     const updatedAdmin = await Admin.findByIdAndUpdate(
       admin._id,
-      { $push: { privileges: { $each: privileges } } },
+      { $push: { previledges: { $each: previledges } } },
       { new: true }
     );
+   
     return updatedAdmin;
   } catch (error) {
     console.error(error);

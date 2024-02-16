@@ -1,5 +1,5 @@
-import Cart from '../models/admin.model.mjs'
-
+import Cart from '../models/cart.model.mjs'
+ 
 /**
  * Create a new cart
  * @param {object} cartData 
@@ -8,8 +8,8 @@ import Cart from '../models/admin.model.mjs'
 
 const createCart = async (cartData) => {
     try {
-    const Cart = await Cart.create(cartData);
-    return Cart;
+    const cart = await Cart.create(cartData);
+    return cart;
   } catch (error) {
     console.error(error);
     throw new Error("Error creating cart");

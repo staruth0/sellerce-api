@@ -38,7 +38,7 @@ const getAllReviews = async () => {
  */
 const deleteReview = async (reviewId) => {
   try {
-    const review = await Review.findByIdAndDelete(reviewId);
+    const review = await Review.findOneAndDelete({review_id:reviewId});
 
     if (review) {
         return review;

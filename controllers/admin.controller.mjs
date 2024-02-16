@@ -42,9 +42,9 @@ const adminController = {
   updateAdminPrivileges: async (req, res) => {
     try {
       const { admin_id } = req.params;
-      const { privileges } = req.body;
+      const { previledges } = req.body;
 
-      const updatedAdmin = await updateAdminPrivileges(admin_id, privileges);
+      const updatedAdmin = await updateAdminPrivileges(admin_id, previledges);
       res.status(httpStatus.OK).json(updatedAdmin);
     } catch (error) {
       console.error(error);

@@ -34,14 +34,15 @@ const getAllFAQ = async () => {
  * @param {string} id
  * @returns {Promise<object>}
  */
-const deleteFAQ = async (id) => {
+const deleteFAQ = async (faqId) => {
   try {
-    const faqToDelete = await FAQ.findOne({ id: id });
+    const faqToDelete = await FAQ.findOne({ faq_id: faqId });
 
     if (!faqToDelete) {
-      throw new Error(`Couldn't find FAQ with id: ${id}`);
+      throw new Error(`Couldn't find FAQ with id: ${faqId}`);
     }
-    const deletedFAQ = await FAQ.findByIdAndDelete(id._id);
+
+    const deletedFAQ = await FAQ.findByIdAndDelete(faqToDelete._id);
 
     return deletedFAQ;
   } catch (error) {
@@ -52,19 +53,19 @@ const deleteFAQ = async (id) => {
 
 /**
  * Update a FAQ by ID
- * @param {string} id 
+ * @param {string} faqId 
  * @param {object} updatedData 
  * @returns {Promise<object>} 
  */
-const updateFAQ = async (id, updatedData) => {
+const updateFAQ = async (faqId, updatedData) => {
   try {
-    const faqToUpdate = await FAQ.findOne({ _id: id });
+    const faqToUpdate = await FAQ.findOne({ faq_id: faqId });
 
     if (!faqToUpdate) {
-      throw new Error(`Couldn't find FAQ with id: ${id}`);
+      throw new Error(`Couldn't find FAQ with id: ${faqId}`);
     }
 
-    const updatedFAQ = await FAQ.findByIdAndUpdate(id, updatedData, {
+    const updatedFAQ = await FAQ.findByIdAndUpdate(faqToUpdate._id, updatedData, {
       new: true,
     });
 
