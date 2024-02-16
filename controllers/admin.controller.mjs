@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { createAdmin, deleteAdmin, getAllAdmins, updateAdminPrivileges,} from "../services/adminService.js";
+import { createAdmin, deleteAdmin, getAllAdmins, updateAdminPrivileges,} from "../services/admin.service.mjs";
 
 const adminController = {
   createAdmin: async (req, res) => {

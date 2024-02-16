@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { createOrder,getAParticularOrder,getAllOrders,deleteOrder} from "../services/ordersService.js";
+import { createOrder,getAParticularOrder,getAllOrders,deleteOrder} from "../services/order.service.mjs";
 
 const ordersController = {
   createOrder: async (req, res) => {

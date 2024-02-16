@@ -2,7 +2,7 @@ import FAQ from "../models/faq.model.mjs";
 
 /**
  * Create a new FAQ
- * @param {object} faqData
+ * @param {object} faqData 
  * @returns {Promise<object>}
  */
 const createFAQ = async (faqData) => {

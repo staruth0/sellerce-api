@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { createTestimonial,getAllTestimonials,deleteTestimonial} from "../services/testimonialService.js";
+import { createTestimonial,getAllTestimonials,deleteTestimonial} from "../services/testimonial.service.mjs";
 
 const testimonialController = {
   createTestimonial: async (req, res) => {

@@ -3,10 +3,9 @@ import paymentController from '../../controllers/payment.controller.mjs'
 const paymentRouter = express.Router()
 
 
-paymentRouter.post('/', paymentController);
-
-paymentRouter.delete('/:id', paymentController);
+paymentRouter.post('/makepayment', paymentController.makePayment);
 
 
 
-export default testimonialRouter;
+
+export default paymentRouter;

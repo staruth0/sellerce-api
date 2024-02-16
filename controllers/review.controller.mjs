@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import {createReview, getAllReviews,deleteReview,getReviewByUserName,getReviewByProductName, getReviewByRating, getReviewByDateAdded,
-} from "../services/reviewService.js";
+} from "../services/review.service.mjs";
 
 const reviewController = {
   createReview: async (req, res) => {

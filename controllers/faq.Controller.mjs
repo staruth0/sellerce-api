@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import {createFAQ,getAllFAQ,deleteFAQ,updateFAQ} from "../services/faqService.js";
+import {createFAQ,getAllFAQ,deleteFAQ,updateFAQ} from "../services/faq.service.mjs";
 
 const faqController = {
   createFAQ: async (req, res) => {

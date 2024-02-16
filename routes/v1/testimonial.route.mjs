@@ -4,7 +4,7 @@ const testimonialRouter = express.Router();
 
 testimonialRouter.post("/create/", testimonialController.createTestimonial);
 
-testimonialRouter.get("/fetchall/", testimonialController.getAllTestimonial);
+testimonialRouter.get("/fetchall/", testimonialController.getAllTestimonials);
 
 testimonialRouter.delete("delete/:id", testimonialController.deleteTestimonial);
 

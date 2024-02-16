@@ -8,7 +8,7 @@ reviewRouter.post('/create', reviewController.createReview);
 reviewRouter.get('/fetchAll', reviewController.getAllReviews);
 
 reviewRouter.get('/fetchAll/:username', reviewController.getReviewByUserName);
-reviewRouter.get('/fetctAll/:productname', reviewController.getReviewByproductName);
+reviewRouter.get('/fetctAll/:productname', reviewController.getReviewByProductName);
 reviewRouter.get('/fetchAll/:rating', reviewController.getReviewByRating);
 reviewRouter.get('/fetchAll/:date', reviewController.getReviewByDateAdded);
 

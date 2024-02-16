@@ -7,7 +7,7 @@ orderRouter.post('/create', ordersController.createOrder);
 orderRouter.get('/fetchAll', ordersController.getAllOrders);
 orderRouter.get('/fetchOne/:order_id', ordersController.getAParticularOrder);
 
-orderRouter.delete('/:id', ordersController)
+orderRouter.delete('/:id', ordersController.deleteOrder)
 
 
 
