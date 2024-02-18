@@ -4,7 +4,7 @@ import config from './config/config.mjs';
 import logger from './config/logger.mjs';
 
 let server;
-mongoose.connect(config.mongoose.url + config.mongoose.databaseName, config.mongoose.options)
+const connection=mongoose.connect(config.mongoose.url + config.mongoose.databaseName, config.mongoose.options)
   .then(() => {
     logger.info('Connected to MongoDB database: ' + config.mongoose.databaseName);
     server = app.listen(config.port, () => {
@@ -15,7 +15,6 @@ mongoose.connect(config.mongoose.url + config.mongoose.databaseName, config.mong
     logger.error('MongoDB connection error:', error);
     process.exit(1);
   });
-
 const exitHandler = () => {
   if (server) {
     server.close(() => {

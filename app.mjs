@@ -13,8 +13,12 @@ import { authLimiter } from './middlewares/rateLimiter.mjs';
 import routes from './routes/v1/index.mjs';
 import { errorConverter, errorHandler } from './middlewares/error.mjs';
 import ApiError from './utils/ApiError.mjs';
+import logger from './config/logger.mjs';
+import sessionMiddleware from './middlewares/session.mjs';
 
 const app = express();
+
+app.disable('x-powered-by');
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -33,6 +37,9 @@ app.options('*', cors());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
+// Use session middleware imported from sessionMiddleware.mjs
+app.use(sessionMiddleware);
+
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
@@ -47,4 +54,3 @@ app.use(errorConverter);
 app.use(errorHandler);
 
 export default app;
-

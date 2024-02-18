@@ -18,6 +18,9 @@ const envVarsSchema = Joi.object({
   SMTP_USERNAME: Joi.string().description('username for email server'),
   SMTP_PASSWORD: Joi.string().description('password for email server'),
   EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
+  SESSION_ID: Joi.string().default('sid'),
+  SESSION_SECRET: Joi.string().default('secrete!session'),
+  SESSION_LIFETIME: Joi.number().default(7200000), // 2 hours 1000 * 60 * 60 * 2
 }).unknown();
 
 const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
@@ -38,6 +41,12 @@ const config = {
     },
     databaseName: envVars.DB_NAME
   },
+  session:{
+    id:envVars.SESSION_ID,
+    secret:envVars.SESSION_SECRET,
+    lifeTime:envVars.SESSION_LIFETIME,
+  }
+  ,
   jwt: {
     secret: envVars.JWT_SECRET,
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,

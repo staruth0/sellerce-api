@@ -52,7 +52,6 @@ const userSchema = mongoose.Schema(
     },
     phone: {
         type: String,
-        unique: true,
         trim: true,
         default:'no number',
     }
