@@ -18,7 +18,7 @@ const makePayment = async (paymentData) => {
           product_data: {
             name: item.product_id,
           },
-          unit_amount: item.price * 100,
+          unit_amount: Math.floor(item.price * 100),
         },
         quantity: item.quantity,
       };
@@ -28,8 +28,8 @@ const makePayment = async (paymentData) => {
       payment_method_types: ["card"],
       line_items: lineItems,
       mode: "payment",
-      success_url: "",
-      cancel_url: "",
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/failure",
     });
 
     return session;

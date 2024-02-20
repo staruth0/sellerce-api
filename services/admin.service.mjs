@@ -3,8 +3,8 @@ import httpStatus from "http-status";
 
 /**
  * Create a new admin user
- * @param {object} adminData 
- * @returns {Promise<object>} 
+ * @param {object} adminData
+ * @returns {Promise<object>}
  */
 
 const createAdmin = async (adminData) => {
@@ -19,12 +19,12 @@ const createAdmin = async (adminData) => {
 
 /**
  * Delete an admin user by ID
- * @param {string} adminId 
- * @returns {Promise<object>} 
+ * @param {string} adminId
+ * @returns {Promise<object>}
  */
 const deleteAdmin = async (adminId) => {
   try {
-    const deleteAdmin = await Admin.findOne({admin_id: adminId});
+    const deleteAdmin = await Admin.findOne({ admin_id: adminId });
 
     if (!deleteAdmin) {
       throw new Error(`Couldn't find admin with ID: ${adminId}`);
@@ -40,7 +40,7 @@ const deleteAdmin = async (adminId) => {
 
 /**
  * Get all admin users
- * @returns {Promise<Array<object>>} 
+ * @returns {Promise<Array<object>>}
  */
 const getAllAdmins = async () => {
   try {
@@ -54,13 +54,13 @@ const getAllAdmins = async () => {
 
 /**
  * Update admin privileges by ID
- * @param {string} adminId 
- * @param {Array<string>} previledges 
- * @returns {Promise<object>} 
+ * @param {string} adminId
+ * @param {Array<string>} previledges
+ * @returns {Promise<object>}
  */
 const updateAdminPrivileges = async (adminId, previledges) => {
   try {
-    const admin = await Admin.findOne({admin_id: adminId});
+    const admin = await Admin.findOne({ admin_id: adminId });
 
     if (!admin) {
       throw new Error("Admin not found");
@@ -71,7 +71,7 @@ const updateAdminPrivileges = async (adminId, previledges) => {
       { $push: { previledges: { $each: previledges } } },
       { new: true }
     );
-   
+
     return updatedAdmin;
   } catch (error) {
     console.error(error);

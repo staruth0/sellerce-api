@@ -21,6 +21,8 @@ import orderRouter from './routes/v1/order.route.mjs'
 import reviewRouter from './routes/v1/review.route.mjs';
 import testimonialRouter from './routes/v1/testimonial.route.mjs';
 import paymentRouter from './routes/v1/payment.route.mjs';
+import chatRouter from './routes/v1/chat.route.controller.mjs'
+import messageRouter from './routes/v1/message.route.mjs'
 
 const app = express();
 
@@ -53,6 +55,9 @@ app.use('/api/order', orderRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/testimonial', testimonialRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/message', messageRouter);
+
 
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));

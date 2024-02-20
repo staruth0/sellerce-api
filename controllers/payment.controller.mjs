@@ -4,7 +4,7 @@ import { makePayment} from "../services/payment.service.mjs";
 const paymentController = {
   makePayment: async (req, res) => {
     try {
-      const paymentSession = await createPayment(req.body); 
+      const paymentSession = await makePayment(req.body); 
       res.status(httpStatus.OK).json({id:paymentSession.id});
     } catch (error) {
       console.error(error);
