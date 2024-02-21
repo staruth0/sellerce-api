@@ -14,9 +14,11 @@ const envVarsSchema = Joi.object({
   JWT_RESET_PASSWORD_EXPIRATION_MINUTES: Joi.number().default(10).description('minutes after which reset password token expires'),
   JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: Joi.number().default(10).description('minutes after which verify email token expires'),
   SMTP_HOST: Joi.string().description('server that will send the emails'),
+  SMTP_SERVICE:Joi.string().description('service used in sending the email'),
   SMTP_PORT: Joi.number().description('port to connect to the email server'),
-  SMTP_USERNAME: Joi.string().description('username for email server'),
+  SMTP_USERNAME: Joi.string().trim().description('username for email server'),
   SMTP_PASSWORD: Joi.string().description('password for email server'),
+  SMTP_SECURE:Joi.boolean().description('determine whether the secure property is trus or false'),
   EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
   SESSION_ID: Joi.string().default('sid'),
   SESSION_SECRET: Joi.string().default('secrete!session'),
@@ -57,11 +59,14 @@ const config = {
   email: {
     smtp: {
       host: envVars.SMTP_HOST,
+      service:envVars.SMTP_SERVICE,
       port: envVars.SMTP_PORT,
+      secure:envVars.SMTP_SECURE,
       auth: {
         user: envVars.SMTP_USERNAME,
         pass: envVars.SMTP_PASSWORD,
       },
+      tls:{rejectUnauthorized:true}
     },
     from: envVars.EMAIL_FROM,
   },

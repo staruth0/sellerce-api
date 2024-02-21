@@ -6,7 +6,7 @@ import * as userController from '../../controllers/user.controller.mjs';
 
 const router = express.Router();
 
-router.route('/')
+router.route('/create')
   .post(auth('manageUsers'), validate(createUser), userController.createUser)
   .get(auth('getUsers'), validate(getUsers), userController.getUsers);
 
