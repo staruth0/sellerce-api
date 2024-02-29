@@ -15,11 +15,11 @@ const createTestimonialValidation = {
 /**
  * Validation schema for deleting testimonial
  */
-const deleteTesimonialValidation = {
+const deleteTestimonialValidation = {
   params: Joi.object().keys({
     testimonial_id: Joi.string().required(),
   }),
 };
 
 
-export {createTestimonialValidation,deleteTesimonialValidation};
+export {createTestimonialValidation,deleteTestimonialValidation};

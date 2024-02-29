@@ -10,3 +10,5 @@ const creatChatValidation = {
         members:Joi.array().items()
     })
 }
+
+export {creatChatValidation}

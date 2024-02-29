@@ -12,3 +12,5 @@ const creatMessageValidation = {
         text:Joi.string.required(),
     })
 }
+
+export {creatMessageValidation}

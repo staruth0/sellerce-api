@@ -5,7 +5,4 @@ const paymentRouter = express.Router()
 
 paymentRouter.post('/makepayment', paymentController.makePayment);
 
-
-
-
 export default paymentRouter;
