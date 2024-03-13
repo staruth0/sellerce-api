@@ -13,7 +13,7 @@ const testimonialSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    comment: {
+    text: {
         type: String,
         required: true
     },

@@ -1,57 +1,63 @@
-import FAQ from "../models/faq.model.mjs";
+import httpStatus from "http-status";
+import {createFAQ,getAllFAQ,deleteFAQ,updateFAQ} from "../services/faq.service.mjs";
 
-const FAQController = {
+const faqController = {
   createFAQ: async (req, res) => {
     try {
-      const faq = await FAQ.create(req.body);
-      res.status(201).json(faq);
+      const faq = await createFAQ(req.body);
+      res.status(httpStatus.CREATED).json(faq);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error creating FAQ");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error creating FAQ");
     }
   },
 
   getAllFAQ: async (req, res) => {
     try {
-      const allFAQ = await FAQ.find({});
-      res.status(200).json(allFAQ);
+      const allFAQ = await getAllFAQ();
+      res.status(httpStatus.OK).json(allFAQ);
     } catch (error) {
       console.error(error);
-      res.status(500).send("error fetching FAQ");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching FAQ");
     }
-  },
+  }, 
 
-  deleteFAQ: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const deletedfaq = await FAQ.findByIdAndDelete(id);
+ deleteFAQ: async (req, res) => {
+  try {
+    const { faq_id } = req.params;
 
-      deletedfaq
-        ? res.status(200).send("success")
-        : res.status(404).send(`couldnt find any question of id ${id}`);
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("error creating FAQ");
-    }
-  },
+    const deletedFAQ = await deleteFAQ(faq_id);
 
-  updateFAQ: async (req, res) => {
-    try {
-      const id = req.params.id;
-      const updatedFAQ = await FAQ.findByIdAndUpdate(id, req.body, {
-        new: true,
+    if (deletedFAQ) {
+      res.status(httpStatus.OK).json({
+        message: "Success deleting FAQ",
+        deletedFAQ,
       });
-
-      if (updatedFAQ) {
-        res.status(200).json(updatedFAQ);
-      } else {
-        res.status(404).send(`couldnt find FAQ with id : ${id}`);
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).send("error updating FAQ");
+    } else {
+      res.status(httpStatus.NOT_FOUND).send(`Couldn't find any FAQ with id ${faq_id}`);
     }
-  },
+  } catch (error) {
+    console.error(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error deleting FAQ");
+  }
+},
+
+updateFAQ: async (req, res) => {
+  try {
+    const { faq_id } = req.params;
+
+    const updatedFAQ = await updateFAQ(faq_id, req.body);
+
+    if (updatedFAQ) {
+      res.status(httpStatus.OK).json(updatedFAQ);
+    } else {
+      res.status(httpStatus.NOT_FOUND).send(`Couldn't find FAQ with id: ${faq_id}`);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error updating FAQ");
+  }
+},
 };
 
-export default FAQController;
+export default faqController;
