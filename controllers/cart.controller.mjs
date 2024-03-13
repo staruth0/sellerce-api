@@ -1,6 +1,6 @@
-import Cart from '../models/cartModels';
+import Cart from '../models/cart.model.mjs';
 
-const Cartcontroller = {
+const cartController = {
     createCart: async (req, res) => {
         try {
             const cartDetail = await Cart.create(req.body);
@@ -22,4 +22,4 @@ const Cartcontroller = {
     },
 };
 
-export default Cartcontroller;
+export default cartController;
