@@ -30,20 +30,28 @@ const getCategoryModel = (category) => {
  * @returns {Promise<object>} - The created product
  */
 const createProduct = async (productBody) => {
-    try {
+    // try {
         const { category, ...productData } = productBody;
         const ProductModel = getCategoryModel(category);
         const product = new ProductModel(productData);
+        
+        // Check if the product_id is not unique
+        const existingProduct = await ProductModel.findOne({ product_id: product.product_id });
+        if (existingProduct) {
+            throw new ApiError(httpStatus.BAD_REQUEST, `Product with ID ${product.product_id} already exists`);
+        }
+        
         const savedProduct = await product.save();
         if (!savedProduct) {
             throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create product');
         }
         return savedProduct;
-    } catch (error) {
-        console.error(`Error creating product: ${error}`);
-        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create product');
-    }
+    // } catch (error) {
+    //     console.error(`Error creating product: ${error}`);
+    //     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create product');
+    // }
 };
+
 
 /**
  * Update a product by its ID

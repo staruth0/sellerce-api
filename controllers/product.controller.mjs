@@ -136,6 +136,7 @@ const updateProductByIdHandler = async (req, res, next) => {
   try {
     const { productId } = req.params;
     const product = await productService.updateProductById(productId, req.body);
+
     res.status(200).json({
       message: 'Product updated successfully',
       product: product
@@ -177,8 +178,11 @@ const getProductByIdHandler = async (req, res, next) => {
     if(!product){
       throw new ApiError(httpStatus.NOT_FOUND, 'Product not found');
     }
+    
     // If the product is found, respond with the product data
-    res.status(httpStatus.OK).json(product);
+    req.session.cookie.path='/product/get-id'
+    const session=req.session;
+    res.status(httpStatus.OK).json({product,session});
   } catch (error) {
     // If any other error occurs during the process, forward it to the error handling middleware
     next(error);
