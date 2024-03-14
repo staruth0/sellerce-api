@@ -8,7 +8,7 @@ const createCartValidation = {
     cart_id: Joi.string().required(),
     user_id: Joi.string().required(),
     items: Joi.array().items(
-      Joi.object.keys({
+      Joi.object().keys({
         product_id: Joi.string().required(),
         quantity: Joi.number().required,
         price: Joi.number().required(),
