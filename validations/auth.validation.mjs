@@ -6,6 +6,8 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
+    phone:Joi.string(),
+
   }),
 };
 
@@ -40,6 +42,7 @@ const resetPassword = {
   }),
   body: Joi.object().keys({
     password: Joi.string().required().custom(password),
+    email:Joi.string().required(),
   }),
 };
 

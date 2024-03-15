@@ -27,7 +27,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
   if (!refreshTokenDoc) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Token Not found');
   }
   await refreshTokenDoc.remove();
 };
@@ -80,9 +80,11 @@ const verifyEmail = async (verifyEmailToken) => {
   try {
     const verifyEmailTokenDoc = await tokenService.verifyToken(verifyEmailToken, tokenTypes.VERIFY_EMAIL);
     const user = await userService.getUserById(verifyEmailTokenDoc.user);
+    
     if (!user) {
-      throw new Error();
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'User Not Found');
     }
+   
     await Token.deleteMany({ user: user.id, type: tokenTypes.VERIFY_EMAIL });
     await userService.updateUserById(user.id, { isEmailVerified: true });
   } catch (error) {
