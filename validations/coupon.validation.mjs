@@ -5,6 +5,7 @@ const createCouponSchema = {
     body: Joi.object().keys({
         percentage_deduction: Joi.number().required(),
         user_ids: Joi.array().items(Joi.string().required()).min(1).required(),
+        product_id:Joi.string().required(),
         code: Joi.string().required(),
         start_date: Joi.date().default(Date.now()),
         end_date: Joi.date().required(),

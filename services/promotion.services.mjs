@@ -64,16 +64,13 @@ async function updatePromotion(promotionId, updatedData) {
  * @returns {Promise<Object>} Cancelled promotion.
  */
 async function cancelPromotion(promotionId) {
-  try {
+
     const cancelledPromotion = await Promotion.findOneAndUpdate({promotion_id:promotionId}, { end_date: Date.now() }, { new: true });
     if (!cancelledPromotion) {
-      throw new Error('Promotion not found');
+      throw new ApiError('Promotion not found');
     }
     return cancelledPromotion;
-  } catch (error) {
-    throw new Error('Failed to cancel promotion');
-  }
-}
+  } 
 
 /**
  * Retrieve all current promotions.

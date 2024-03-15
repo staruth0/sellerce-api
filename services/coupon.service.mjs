@@ -1,4 +1,5 @@
 import Coupon from '../models/coupon.model.mjs';
+import ApiError from '../utils/ApiError.mjs';
 
 /**
  * Create a new coupon.
@@ -10,7 +11,7 @@ const createCoupon = async (couponData) => {
         const newCoupon = await Coupon.create(couponData);
         return newCoupon;
     } catch (error) {
-        throw new Error('Failed to create coupon');
+        throw new ApiError('Failed to create coupon: ',error);
     }
 };
 

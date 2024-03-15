@@ -8,7 +8,7 @@ const createOrderValidation = {
     order_id: Joi.string().required(),
     user_id: Joi.string().required(),
     products: Joi.array().items(
-      Joi.object.keys({
+      Joi.object({
         product_id: Joi.string().required(),
         quantity: Joi.number().required(),
         price: Joi.number().required(),
@@ -24,7 +24,6 @@ const createOrderValidation = {
     order_status: Joi.string()
       .required()
       .valid("Pending", "Delivered", "Failed"),
-
     payment_status: Joi.string().required().valid("Not Paid", "Paid"),
     order_date: Joi.date().required(),
   }),

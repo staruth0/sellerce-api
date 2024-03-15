@@ -5,12 +5,12 @@ import * as couponService from '../services/coupon.service.mjs';
 /**
  * Controller to Create a new coupon.
  */
-const createCoupon = async (req, res) => {
+const createCoupon = async (req, res,next) => {
     try {
         const newCoupon = await couponService.createCoupon(req.body);
         res.status(201).json(newCoupon);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        next(error);
     }
 };
 

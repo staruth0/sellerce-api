@@ -8,14 +8,15 @@ const createCartValidation = {
     cart_id: Joi.string().required(),
     user_id: Joi.string().required(),
     items: Joi.array().items(
-      Joi.object.keys({
+      Joi.object({
         product_id: Joi.string().required(),
-        quantity: Joi.number().required,
+        quantity: Joi.number().required(),
         price: Joi.number().required(),
       })
     ),
   }),
 };
+
 
 /**
  * Validation schema for updating Cart

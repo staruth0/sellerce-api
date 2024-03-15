@@ -8,6 +8,9 @@ const couponSchema = new mongoose.Schema({
 		required:true
 	},
 	user_ids: [String],
+	product_id:{
+		type:String
+	},
 	code: { 
 		type: String, 
 		required: true 

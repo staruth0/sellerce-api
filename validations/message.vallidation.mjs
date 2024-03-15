@@ -7,9 +7,9 @@ import Joi from 'joi'
 const creatMessageValidation = {
     body: Joi.object({
         chat_id: Joi.string().required(),
-        message_id: Joi.string.required(),
-        user_id: Joi.string.required(),
-        text:Joi.string.required(),
+        message_id: Joi.string().required(),
+        user_id: Joi.string().required(),
+        text:Joi.string().required(),
     })
 }
 
