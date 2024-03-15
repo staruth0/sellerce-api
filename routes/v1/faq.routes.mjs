@@ -1,5 +1,5 @@
 import express from "express";
-import FAQController from '../../controllers/faq.controller.mjs';
+import FAQController from '../../controllers/faq.Controller.mjs';
 import validate from '../../middlewares/validate.mjs';
 import {createFAQValidation,updateFAQValidation,deleteFAQValidation} from '../../validations/faq.validation.mjs';
 
