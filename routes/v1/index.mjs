@@ -13,6 +13,7 @@ import productRoute from './product.route.mjs';
 import promotionRoute from './promotion.route.mjs';
 // import reviewRoute from './review.route.mjs';
 // import testimonialRoute from './testimonial.route.mjs';
+import categoryRoute from './category.route.mjs';
 import docsRoute from './docs.route.mjs';
 import config from '../../config/config.mjs';
 
@@ -26,6 +27,10 @@ const defaultRoutes = [
   {
     path: '/users',
     route: userRoute,
+  },
+  {
+    path: '/category',
+    route: categoryRoute,
   },
   // {
   //   path: '/admin',

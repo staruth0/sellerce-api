@@ -40,7 +40,8 @@ const config = {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      writeConcern: {w:'majorityAppleProduct-operationalDB'}
+      // writeConcern: {w:'majorityAppleProduct-operationalDB'},
+      useFindAndModify: false
 
     },
     databaseName: envVars.DB_NAME

@@ -8,5 +8,6 @@ import * as reviewValidation from '../validations/review.validation.mjs'
 import * as testimonialValidation from '../validations/testimonial.validation.mjs'
 import * as couponValidation from '../validations/coupon.validation.mjs'
 import * as ProductValidation from '../validations/product.validation.mjs'
+import * as categoryValidation from '../validations/category.validation.mjs'
 
-export { authValidation, userValidation, adminValidation,cartValidation,FAQValidation,orderValidation,reviewValidation,testimonialValidation, couponValidation,ProductValidation };
+export { authValidation, userValidation, adminValidation,cartValidation,FAQValidation,orderValidation,reviewValidation,testimonialValidation, couponValidation,ProductValidation,categoryValidation };
