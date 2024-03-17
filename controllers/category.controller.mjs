@@ -1,6 +1,7 @@
 import * as categoryService from '../services/category.service.mjs';
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError.mjs';
+import Category from '../models/category.model.mjs';
 
 /**
  * Controller function to create a new category.
@@ -50,6 +51,23 @@ const updateCategory = async (req, res, next) => {
 };
 
 /**
+ * Controller function to get all categories.
+ * @param {Request} req - The HTTP request object
+ * @param {Response} res - The HTTP response object
+ * @param {NextFunction} next - The next middleware function
+ */
+const getAllCategories = async (req, res, next) => {
+  try {
+    const categories = await Category.find();
+    res.status(httpStatus.OK).json(categories);
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to fetch categories'));
+  }
+};
+
+
+/**
  * Controller function to delete a category.
  * @param {Request} req - The HTTP request object
  * @param {Response} res - The HTTP response object
@@ -69,5 +87,6 @@ export {
     createCategory,
     getCategoryById,
     updateCategory,
+    getAllCategories,
     deleteCategory
 };

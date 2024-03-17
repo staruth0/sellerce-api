@@ -26,7 +26,23 @@ const getCouponById = async (req, res) => {
     }
 };
 
+/**
+ * Controller function to get coupons by user ID.
+ * @param {Request} req - The HTTP request object.
+ * @param {Response} res - The HTTP response object.
+ * @param {NextFunction} next - The next middleware function.
+ */
+const getCouponsByUserId = async (req, res, next) => {
+    try {
+        const { userId } = req.params;
+        const coupons = await couponService.getCouponsByUserId(userId);
+        res.status(httpStatus.OK).json(coupons);
+    } catch (error) {
+        next(error);
+    }
+};
 export{
     getCouponById,
-    createCoupon
+    createCoupon,
+    getCouponsByUserId
 }

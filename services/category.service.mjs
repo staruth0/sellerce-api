@@ -58,6 +58,20 @@ const updateCategory = async (categoryId, updatedData) => {
 };
 
 /**
+ * Get all categories.
+ * @returns {Promise<Array>} Array of category objects.
+ */
+const getAllCategories = async () => {
+    try {
+      const categories = await Category.find();
+      return categories;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      throw new Error('Failed to fetch categories');
+    }
+  };
+
+/**
  * Delete an existing category
  * @param {string} categoryId - ID of the category to delete.
  * @returns {Promise<void>}
@@ -74,5 +88,6 @@ export {
   createCategory,
   getCategoryById,
   updateCategory,
+  getAllCategories,
   deleteCategory,
 };

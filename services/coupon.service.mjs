@@ -32,7 +32,22 @@ const getCouponById = async (couponId) => {
     }
 };
 
+/**
+ * Get coupons by user ID.
+ * @param {string} userId - ID of the user.
+ * @returns {Promise<Array>} Coupons associated with the user.
+ */
+const getCouponsByUserId = async (userId) => {
+    try {
+        const coupons = await Coupon.find({ user_ids: userId });
+        return coupons;
+    } catch (error) {
+        throw new ApiError('Failed to get coupons by user ID: ', error);
+    }
+};
+
  export{
     createCoupon,
-    getCouponById
+    getCouponById,
+    getCouponsByUserId
  }
