@@ -1,7 +1,8 @@
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError.mjs';
-import {BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop}  from '../models/product.model.mjs';
-import {toSingular} from '../utils/helperFunctions.mjs'
+import {BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop, AppleMacbook}  from '../models/product.model.mjs';
+import {checkCategoryExists} from '../services/category.service.mjs'
+// import {toSingular} from '../utils/helperFunctions.mjs'
 // import { BaseProduct } from '../models/product.model.mjs';
 
 /**
@@ -11,14 +12,16 @@ import {toSingular} from '../utils/helperFunctions.mjs'
  */
 const getCategoryModel = (category) => {
     switch (category) {
-        case 'phone':
+        case 'ApplePhone':
             return ApplePhone;
-        case 'watch':
+        case 'AppleWatch':
             return AppleWatch;
-        case 'tablet':
+        case 'AppleTablet':
             return AppleTablet;
-        case 'laptop':
+        case 'AppleLaptop':
             return AppleLaptop;
+        case 'AppleMacbook':
+            return AppleMacbook;
         default:
             return BaseProduct; // Default to BaseProduct if no specific category is provided
     }
@@ -32,6 +35,13 @@ const getCategoryModel = (category) => {
 const createProduct = async (productBody) => {
     // try {
         const { category, ...productData } = productBody;
+        console.log('##########this is our category:',category);
+        // Check if the category exists
+        const categoryExists = await checkCategoryExists(category);
+        if (!categoryExists) {
+            throw new ApiError(httpStatus.BAD_REQUEST, `Category ${category} does not exist`);
+        }
+        
         const ProductModel = getCategoryModel(category);
         const product = new ProductModel(productData);
         
@@ -51,6 +61,7 @@ const createProduct = async (productBody) => {
     //     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to create product');
     // }
 };
+
 
 
 /**

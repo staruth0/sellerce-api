@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import Category from '../models/category.model.mjs';
+import {BaseProduct as Product} from '../models/product.model.mjs';
 import ApiError from '../utils/ApiError.mjs';
 
 /**
@@ -77,10 +78,39 @@ const getAllCategories = async () => {
  * @returns {Promise<void>}
  */
 const deleteCategory = async (categoryId) => {
-   
-    const category = await Category.findByIdAndDelete(categoryId);
-    if (!category) {
+
+  // Find the category to be deleted
+  const category = await Category.findById(categoryId);
+  if (!category) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Category not found');
+  }
+  
+  // Delete products associated with the category
+  const deleteresult = await Product.deleteMany({ category: category.categoryName });
+  if (!(deleteresult==0)) {
+    console.log(`${deleteresult} products will be deleted`);
+  }
+  try {
+      // Delete the category itself
+      await category.delete();
+  } catch (error) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to delete category');
+  }
+};
+
+/**
+ * Check if a category exists by categoryName (case-insensitive)
+ * @param {string} categoryName - The name of the category to check
+ * @returns {Promise<boolean>} - Whether the category exists or not
+ */
+const checkCategoryExists = async (categoryName) => {
+    try {
+        // Use a case-insensitive regular expression for the search
+        const category = await Category.findOne({ categoryName: { $regex: new RegExp(`^${categoryName}$`, 'i') } });
+        return !!category; // Returns true if category is found, false otherwise
+    } catch (error) {
+        console.error(`Error checking if category ${categoryName} exists: ${error}`);
+        return false; // Return false in case of any error
     }
 };
 
@@ -90,4 +120,5 @@ export {
   updateCategory,
   getAllCategories,
   deleteCategory,
+  checkCategoryExists
 };

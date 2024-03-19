@@ -2,11 +2,16 @@ import mongoose from 'mongoose';
 import toJSON from './plugins/toJSON.plugin.mjs';
 
 const categorySchema = mongoose.Schema(
-  {
+  { 
     categoryName: {
       type: String,
       required: true,
     },
+    featuredProductName:{
+      type:String,
+      required:true,
+    }
+    ,
     featuredImage: {
       type: String,
       required: true,

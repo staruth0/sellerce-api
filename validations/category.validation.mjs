@@ -4,6 +4,7 @@ const createCategory = {
   body: Joi.object().keys({
     categoryName: Joi.string().required(),
     featuredImage: Joi.string().required(),
+    featuredProductName: Joi.string().required(),
     heroImage: Joi.string().required(),
     design: Joi.string().required(),
     performance: Joi.string().required(),

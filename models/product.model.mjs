@@ -344,6 +344,77 @@ const appleCategorySchemas = {
       },
     ],
   }),
+  macbook: new mongoose.Schema({
+    // Laptop-specific fields
+    variants: [
+      {
+        model: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        year_introduced: {
+          type:String,
+          required: true,
+        },
+        salescount:{
+          type:Number,
+          default:0
+        },
+        storageCapacity: { 
+          type: String, 
+          required: true 
+        },
+        internalMemory:{
+          type: String,
+          required:true
+        },
+        batteryLive:{
+          type:String,
+          required:true
+        },
+        screenResolution:{
+          type:String,
+          required:true
+        },
+        cameraModel:{
+          type:String,
+          default:'not provided'
+        },
+        osVersion:{
+          type:String,
+          default:'not provided'
+        },
+        otherVariant: [
+          {
+            color:{ 
+              type: String, 
+              required: true 
+            },
+            image: [
+              { 
+                type: String, 
+                required: true 
+              }
+            ],
+            color_quantity_in_stock: { 
+              type: Number, 
+              required: true 
+            },
+
+          }
+        ],
+        model_quantity_in_stock: { 
+          type: Number, 
+          required: true 
+        },
+      },
+    ],
+  }),
   // Add more categories as needed
 };
 
@@ -358,5 +429,6 @@ const ApplePhone = BaseProduct.discriminator('ApplePhone', appleCategorySchemas.
 const AppleWatch = BaseProduct.discriminator('AppleWatch', appleCategorySchemas.watch);
 const AppleTablet = BaseProduct.discriminator('AppleTablet', appleCategorySchemas.tablet);
 const AppleLaptop = BaseProduct.discriminator('AppleLaptop', appleCategorySchemas.laptop);
+const AppleMacbook = BaseProduct.discriminator('AppleMacbook', appleCategorySchemas.macbook);
 
-export { BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop };
+export { BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop,AppleMacbook };
