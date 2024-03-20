@@ -2,13 +2,13 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
-    review_id: {
+    reviewer_name: {
       type: String,
       required: true,
     },
-        image: String,
-    
-    product_id: {
+    image: String,
+        
+    product_name: {
       type: String,
       required: true,
     },

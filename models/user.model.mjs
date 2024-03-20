@@ -7,6 +7,7 @@ import { roles } from '../config/roles.mjs';
 
 const userSchema = mongoose.Schema(
   {
+    user_id:{type:String, required:true},
     name: {
       type: String,
       required: true,

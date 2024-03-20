@@ -15,7 +15,7 @@ router.route('/:userId')
   .patch(auth('manageUsers'), validate(updateUser), userController.updateUser)
   .delete(auth('manageUsers'), validate(deleteUser), userController.deleteUser);
 
-export default router;
+export default router; 
 
 
 /**
