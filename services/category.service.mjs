@@ -44,6 +44,21 @@ const getCategoryById = async (categoryId) => {
 };
 
 /**
+ * Get category by name (partial matching)
+ * @param {string} categoryName - Partial or complete name of the category to retrieve.
+ * @returns {Promise<Object>} Retrieved category.
+ */
+const getCategoryByName = async (categoryName) => {
+  const regex = new RegExp(categoryName, 'i'); // 'i' for case-insensitive matching
+  const category = await Category.findOne({ categoryName: { $regex: regex } });
+  if (!category) {
+    throw new ApiError(httpStatus.NOT_FOUND, `Category with name containing '${categoryName}' not found`);
+  }
+  return category;
+};
+
+
+/**
  * Update an existing category
  * @param {string} categoryId - ID of the category to update.
  * @param {Object} updatedData - Updated data for the category.
@@ -120,5 +135,6 @@ export {
   updateCategory,
   getAllCategories,
   deleteCategory,
-  checkCategoryExists
+  checkCategoryExists,
+  getCategoryByName
 };

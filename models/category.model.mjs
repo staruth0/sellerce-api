@@ -14,7 +14,7 @@ const categorySchema = mongoose.Schema(
     ,
     featuredImage: {
       type: String,
-      required: true,
+      // required: true,
     },
     heroImage: {
       type: String,

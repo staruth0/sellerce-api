@@ -35,6 +35,25 @@ const getCategoryById = async (req, res, next) => {
 };
 
 /**
+ * Get category by name
+ * @param {Request} req - The HTTP request object
+ * @param {Response} res - The HTTP response object
+ * @param {NextFunction} next - The next middleware function
+ */
+const getCategoryByName = async (req, res, next) => {
+    try {
+        const { name } = req.params;
+        const category = await categoryService.getCategoryByName(name);
+        res.status(httpStatus.OK).json(category);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { getCategoryByName };
+
+
+/**
  * Controller function to update a category.
  * @param {Request} req - The HTTP request object
  * @param {Response} res - The HTTP response object

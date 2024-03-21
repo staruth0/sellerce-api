@@ -6,5 +6,6 @@ import FAQ from './faq.model.mjs';
 import Order from './order.model.mjs';
 import Review from './review.model.mjs';
 import Testimonial from './testimonial.model.mjs';
+import HeroSection from './hero.model.mjs';
 
-export { Token, User, Admin,Cart,FAQ,Order,Review,Testimonial};
+export { Token, User, Admin,Cart,FAQ,Order,Review,Testimonial,HeroSection};

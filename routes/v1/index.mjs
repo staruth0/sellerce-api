@@ -16,6 +16,7 @@ import promotionRoute from './promotion.route.mjs';
 import categoryRoute from './category.route.mjs';
 import docsRoute from './docs.route.mjs';
 import config from '../../config/config.mjs';
+import heroRoutes from './hero.route.mjs'
 
 const router = express.Router();
 
@@ -31,6 +32,10 @@ const defaultRoutes = [
   {
     path: '/category',
     route: categoryRoute,
+  },
+  {
+    path: '/hero',
+    route: heroRoutes,
   },
   // {
   //   path: '/admin',

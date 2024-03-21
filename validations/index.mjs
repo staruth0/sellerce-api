@@ -9,5 +9,6 @@ import * as testimonialValidation from '../validations/testimonial.validation.mj
 import * as couponValidation from '../validations/coupon.validation.mjs'
 import * as ProductValidation from '../validations/product.validation.mjs'
 import * as categoryValidation from '../validations/category.validation.mjs'
+import * as HeroValidation from '../validations/hero.validation.mjs'
 
-export { authValidation, userValidation, adminValidation,cartValidation,FAQValidation,orderValidation,reviewValidation,testimonialValidation, couponValidation,ProductValidation,categoryValidation };
+export { authValidation, userValidation, adminValidation,cartValidation,FAQValidation,orderValidation,reviewValidation,testimonialValidation, couponValidation,ProductValidation,categoryValidation, HeroValidation };

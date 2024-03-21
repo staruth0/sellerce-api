@@ -367,9 +367,14 @@ const getProductsByCategory = async (category) => {
  */
 const getProductsByName = async (name) => {
     try {
-        // Query the database for products with matching names
-        
-        const products = await BaseProduct.find({ name: { $regex: new RegExp(name, 'i') } });
+        // Remove all spaces from the input name
+        const processedName = name.replace(/\s+/g, '');
+
+        // Construct a regular expression to match any characters between the characters of the processed input name
+        const regex = new RegExp(processedName.split('').join('.*'), 'i');
+
+        // Query the database for products with names matching the processed input name
+        const products = await BaseProduct.find({ name: { $regex: regex } });
 
         return products;
     } catch (error) {
@@ -380,6 +385,9 @@ const getProductsByName = async (name) => {
         );
     }
 };
+
+
+
 
 /**
  * Get products by Last_day_updated with partial or complete matching
