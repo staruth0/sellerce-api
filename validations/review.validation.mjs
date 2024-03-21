@@ -7,8 +7,8 @@ const createReviewValidation = {
   body: Joi.object({
     review_id: Joi.string().required(),
     image: Joi.string().required(),
-    product_id: Joi.string().required(),
-    user_id: Joi.string().required(),
+    product_name: Joi.string().required(),
+    reviewer_name: Joi.string().required(),
     user_rating: Joi.number(),
     like: Joi.boolean(),
     comment: Joi.string(),
