@@ -24,7 +24,6 @@ const createOrderValidation = {
     order_status: Joi.string()
       .required()
       .valid("Pending", "Delivered", "Failed"),
-
     payment_status: Joi.string().required().valid("Not Paid", "Paid"),
     order_date: Joi.date().required(),
   }),

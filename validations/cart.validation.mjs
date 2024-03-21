@@ -10,12 +10,13 @@ const createCartValidation = {
     items: Joi.array().items(
       Joi.object().keys({
         product_id: Joi.string().required(),
-        quantity: Joi.number().required,
+        quantity: Joi.number().required(),
         price: Joi.number().required(),
       })
     ),
   }),
 };
+
 
 /**
  * Validation schema for updating Cart

@@ -1,6 +1,6 @@
 import Review from "../models/review.model.mjs";
 import User from "../models/user.model.mjs";
-import Product from "../models/product.model.mjs";
+import {BaseProduct} from "../models/product.model.mjs";
 
 /**
  * Create a new review

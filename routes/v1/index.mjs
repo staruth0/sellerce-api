@@ -5,14 +5,15 @@ import authRoute from './auth.route.mjs';
 import userRoute from './user.route.mjs';
 // import adminRoute from './admin.route.mjs';
 // import cartRoute from './cart.route.mjs';
-// import couponRoute from './coupon.route.mjs';
+import couponRoute from './coupon.route.mjs';
 // import favouriteRoute from './favourite.route.mjs';
 // import orderRoute from './order.route.mjs';
 // import paymentRoute from './payment.route.mjs';
-// import productRoute from './product.route.mjs';
-// import promotionRoute from './promotion.route.mjs';
+import productRoute from './product.route.mjs';
+import promotionRoute from './promotion.route.mjs';
 // import reviewRoute from './review.route.mjs';
 // import testimonialRoute from './testimonial.route.mjs';
+import categoryRoute from './category.route.mjs';
 import docsRoute from './docs.route.mjs';
 import config from '../../config/config.mjs';
 
@@ -27,6 +28,10 @@ const defaultRoutes = [
     path: '/users',
     route: userRoute,
   },
+  {
+    path: '/category',
+    route: categoryRoute,
+  },
   // {
   //   path: '/admin',
   //   route: adminRoute,
@@ -35,10 +40,10 @@ const defaultRoutes = [
   //   path: '/cart',
   //   route: cartRoute,
   // },
-  // {
-  //   path: '/coupon',
-  //   route: couponRoute,
-  // },
+  {
+    path: '/coupon',
+    route: couponRoute,
+  },
   // {
   //   path: '/favourite',
   //   route: favouriteRoute,
@@ -51,14 +56,14 @@ const defaultRoutes = [
   //   path: '/payment',
   //   route: paymentRoute,
   // },
-  // {
-  //   path: '/product',
-  //   route: productRoute,
-  // },
-  // {
-  //   path: '/promotion',
-  //   route: promotionRoute,
-  // },
+  {
+    path: '/product',
+    route: productRoute,
+  },
+  {
+    path: '/promotion',
+    route: promotionRoute,
+  },
   // {
   //   path: '/review',
   //   route: reviewRoute,

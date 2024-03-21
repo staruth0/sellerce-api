@@ -1,4 +1,4 @@
-import  version from '../package.json' assert { type: "json" };;
+// import  version from '../package.json' assert { type: "json" };;
 
 import config from '../config/config.mjs';
 
@@ -6,7 +6,7 @@ const swaggerDef = {
   openapi: '3.0.0',
   info: {
     title: 'node-express-boilerplate API documentation',
-    version: version,
+    // version: version,
     license: {
       name: 'MIT',
       url: 'https://github.com/hagopj13/node-express-boilerplate/blob/master/LICENSE',
