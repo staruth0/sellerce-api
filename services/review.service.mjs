@@ -38,7 +38,7 @@ const getAllReviews = async () => {
  */
 const deleteReview = async (reviewId) => {
   try {
-    const review = await Review.findOneAndDelete({review_id:reviewId});
+    const review = await Review.findByIdAndDelete(reviewId);
      if (review) {
         return review;
     } else {
@@ -57,13 +57,7 @@ const deleteReview = async (reviewId) => {
  */
 const getReviewByUserName = async (username) => {
   try {
-    const user = await User.findOne({ firstName: username });
-
-    if (!user) {
-      throw new Error(`Could not find user with name: ${username}`);
-    }
-
-    const reviews = await Review.find({ user_id: user.user_id });
+    const reviews = await Review.find({ reviewer_name: username });
     return reviews;
   } catch (error) {
     console.error(error);
