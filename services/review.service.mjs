@@ -39,8 +39,7 @@ const getAllReviews = async () => {
 const deleteReview = async (reviewId) => {
   try {
     const review = await Review.findOneAndDelete({review_id:reviewId});
-
-    if (review) {
+     if (review) {
         return review;
     } else {
       throw new Error(`Could not find review with ID: ${reviewId}`);
@@ -79,13 +78,7 @@ const getReviewByUserName = async (username) => {
  */
 const getReviewByProductName = async (productName) => {
   try {
-    const product = await BaseProduct.findOne({ name: productName });
-
-    if (!product) {
-      throw new Error(`Could not find product with name: ${productName}`);
-    }
-
-    const reviews = await Review.find({ product_id: product.product_id });
+    const reviews = await Review.find({ product_name: productName });
     return reviews;
   } catch (error) {
     console.error(error);
@@ -115,7 +108,7 @@ const getReviewByRating = async (rating) => {
 
 /**
  * Get reviews by date added
- * @param {string} date 
+ * @param {string} date  
  * @returns {Promise<Array>} 
  */
 const getReviewByDateAdded = async (date) => {

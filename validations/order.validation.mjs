@@ -8,7 +8,7 @@ const createOrderValidation = {
     order_id: Joi.string().required(),
     user_id: Joi.string().required(),
     products: Joi.array().items(
-      Joi.object({
+      Joi.object().keys({
         product_id: Joi.string().required(),
         quantity: Joi.number().required(),
         price: Joi.number().required(),

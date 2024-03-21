@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
         required:true
     },
     products: [{
-       product_id:{type:String, required:true},
+       product_name:{type:String, required:true},
        quantity: { type: Number, required: true },
         price: { type: Number, required: true },
        color:{type:String,required:true}
@@ -41,6 +41,16 @@ const orderSchema = new mongoose.Schema({
         required: true,
         default: 'not paid',
         enum:['not paid', 'paid']
+    },
+    location: {
+        type: String,
+    },
+     shipping_address: {
+        type: String,
+    },
+    payment_method: {
+        type: String,
+        required: true,
     },
     order_date: {
         type: Date,

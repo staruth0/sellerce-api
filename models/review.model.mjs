@@ -6,13 +6,13 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-        image: String,
-    
-    product_id: {
+    reviewer_name: {
       type: String,
       required: true,
     },
-    user_id: {
+    image: String,
+        
+    product_name: {
       type: String,
       required: true,
     },
