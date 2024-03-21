@@ -8,9 +8,9 @@ const reviewRouter = express.Router();
 reviewRouter.post('/create', validate(createReviewValidation), reviewController.createReview);
 reviewRouter.get('/fetchAll', reviewController.getAllReviews);
 reviewRouter.get('/fetchAllbyusername/:username', reviewController.getReviewByUserName);
-reviewRouter.get('/fetctAllbyproductname/:productname', reviewController.getReviewByProductName);
+reviewRouter.get('/fetchAllbyproductname/:productname', reviewController.getReviewByProductName);
 reviewRouter.get('/fetchAllbyrating/:rating', reviewController.getReviewByRating);
 reviewRouter.get('/fetchAllbydate/:date', reviewController.getReviewByDateAdded);
-reviewRouter.delete('/delete/:id', validate(deleteReviewValidation), reviewController.deleteReview);
+reviewRouter.delete('/delete/:review_id', validate(deleteReviewValidation), reviewController.deleteReview);
 
 export default reviewRouter;
