@@ -36,8 +36,7 @@ const getAllTestimonials = async () => {
  */
 const deleteTestimonial = async (testimonialId) => {
   try {
-    const result = await Testimonial.findOneAndDelete(testimonialId);
-
+    const result = await Testimonial.findByIdAndDelete(testimonialId)
     if (result) {
       return result;
     } else {

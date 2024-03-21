@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import Chat from "./chat.model.mjs";
 
 const MessageSchema = new mongoose.Schema({
     message_id: mongoose.Schema.Types.ObjectId,

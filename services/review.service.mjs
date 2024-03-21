@@ -38,9 +38,8 @@ const getAllReviews = async () => {
  */
 const deleteReview = async (reviewId) => {
   try {
-    const review = await Review.findOneAndDelete({review_id:reviewId});
-
-    if (review) {
+    const review = await Review.findByIdAndDelete(reviewId);
+     if (review) {
         return review;
     } else {
       throw new Error(`Could not find review with ID: ${reviewId}`);
@@ -58,13 +57,7 @@ const deleteReview = async (reviewId) => {
  */
 const getReviewByUserName = async (username) => {
   try {
-    const user = await User.findOne({ firstName: username });
-
-    if (!user) {
-      throw new Error(`Could not find user with name: ${username}`);
-    }
-
-    const reviews = await Review.find({ user_id: user.user_id });
+    const reviews = await Review.find({ reviewer_name: username });
     return reviews;
   } catch (error) {
     console.error(error);
@@ -79,13 +72,7 @@ const getReviewByUserName = async (username) => {
  */
 const getReviewByProductName = async (productName) => {
   try {
-    const product = await BaseProduct.findOne({ name: productName });
-
-    if (!product) {
-      throw new Error(`Could not find product with name: ${productName}`);
-    }
-
-    const reviews = await Review.find({ product_id: product.product_id });
+    const reviews = await Review.find({ product_name: productName });
     return reviews;
   } catch (error) {
     console.error(error);
@@ -115,7 +102,7 @@ const getReviewByRating = async (rating) => {
 
 /**
  * Get reviews by date added
- * @param {string} date 
+ * @param {string} date  
  * @returns {Promise<Array>} 
  */
 const getReviewByDateAdded = async (date) => {

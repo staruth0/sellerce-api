@@ -25,8 +25,8 @@ const reviewController = {
 
   deleteReview: async (req, res) => {
     try {
-      const { id } = req.params;
-      const result = await deleteReview(id);
+      const { review_id } = req.params;
+      const result = await deleteReview(review_id);
 
       res.status(httpStatus.OK).send(result);
     } catch (error) {
@@ -43,7 +43,7 @@ const reviewController = {
       res.status(httpStatus.OK).json(reviews);
     } catch (error) {
       console.error(error);
-      re.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching review by username");
+      res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Error fetching review by username");
     }
   },
 
