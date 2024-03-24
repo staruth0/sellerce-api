@@ -18,7 +18,7 @@ const categorySchema = mongoose.Schema(
     },
     heroImage: {
       type: String,
-      required: true,
+      // required: true,
     },
     design: {
       type: String,

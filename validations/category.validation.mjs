@@ -3,9 +3,9 @@ import Joi from 'joi';
 const createCategory = {
   body: Joi.object().keys({
     categoryName: Joi.string().required(),
-    // featuredImage: Joi.string().required(),
+    featuredImage: Joi.string(),
     featuredProductName: Joi.string().required(),
-    heroImage: Joi.string().required(),
+    heroImage: Joi.string(),
     design: Joi.string().required(),
     performance: Joi.string().required(),
     integration: Joi.string().required(),
