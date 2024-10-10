@@ -1,7 +1,7 @@
 import express from 'express';
-import { register, login, logout, refreshTokens, forgotPassword, resetPassword, sendVerificationEmail, verifyEmail } from '../../controllers/auth.controller.mjs';
+import { register, login, logout, refreshTokens, forgotPassword, resetPassword, sendVerificationEmail, verifyEmail, getTokenUserId } from '../../controllers/auth.controller.mjs';
 import validate from '../../middlewares/validate.mjs';
-import { register as registerValidation, login as loginValidation, logout as logoutValidation, refreshTokens as refreshTokensValidation, forgotPassword as forgotPasswordValidation, resetPassword as resetPasswordValidation, verifyEmail as verifyEmailValidation } from '../../validations/auth.validation.mjs';
+import { register as registerValidation, login as loginValidation, logout as logoutValidation, refreshTokens as refreshTokensValidation, forgotPassword as forgotPasswordValidation, resetPassword as resetPasswordValidation, verifyEmail as verifyEmailValidation, TokenUserId as TokenUserIdValidation } from '../../validations/auth.validation.mjs';
 import auth from '../../middlewares/auth.mjs';
 
 const router = express.Router();
@@ -14,6 +14,7 @@ router.post('/forgot-password', validate(forgotPasswordValidation), forgotPasswo
 router.post('/reset-password', validate(resetPasswordValidation), resetPassword);
 router.post('/send-verification-email', auth(), sendVerificationEmail);
 router.post('/verify-email', validate(verifyEmailValidation), verifyEmail);
+router.post('/token/userId',auth(),validate(TokenUserIdValidation), getTokenUserId);
 
 export default router;
 

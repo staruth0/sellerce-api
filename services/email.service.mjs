@@ -5,7 +5,6 @@ import logger from '../config/logger.mjs';
 let transport;
 
 transport = nodemailer.createTransport(config.email.smtp);  
-console.log('#######################: ', config.email.smtp)
 transport.verify()
   .then(() => {
     logger.info('Connected to email server');
@@ -31,7 +30,7 @@ transport.verify()
  * @returns {Promise}
  */
 const sendEmail = async (to, subject, text) => {
-  const msg = { from: config.email.from, to, subject, text };
+  const msg = { from: config.email.from, to, subject, html:text };
   await transport.sendMail(msg);
 };
 
@@ -44,12 +43,12 @@ const sendEmail = async (to, subject, text) => {
 const sendResetPasswordEmail = async (to, token) => {
   try {
     const subject = 'Reset password';
-    const resetPasswordUrl = `http://link-to-app/reset-password?token=${token}`;
+    const resetPasswordUrl = `https://sellerce-frontend.vercel.app/verify-reset/reset-password/new-password?token=${token}&&email=${to}`;
     const text = `Dear user,
 
     To reset your password, click on this link: 
     
-    ${resetPasswordUrl}
+    <a href="${resetPasswordUrl}">${resetPasswordUrl}</a>
     
     If you did not request any password resets, then ignore this email.
     
@@ -75,9 +74,14 @@ const sendResetPasswordEmail = async (to, token) => {
  */
 const sendVerificationEmail = async (to, token) => {
   const subject = 'Email Verification';
-  const verificationEmailUrl = `http://localhost:3000/v1/auth/verify-email?token=${token}`;
+  const verificationEmailUrl = `https://sellerce-frontend.vercel.app/verify-reset/verify?token=${token}`;
   const text = `Dear user,
-To verify your email, click on this link: ${verificationEmailUrl}
+To verify your email, click on this button: 
+    <button type="submit">
+    ${verificationEmailUrl}
+    </button>
+
+
 If you did not create an account, then ignore this email.
 
 Happy exploring!

@@ -1,7 +1,8 @@
 import httpStatus from 'http-status';
 import ApiError from '../utils/ApiError.mjs';
-import {BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop, AppleMacbook}  from '../models/product.model.mjs';
+// import {BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop, AppleMacbook}  from '../models/product.model.mjs';
 import {checkCategoryExists} from '../services/category.service.mjs'
+import { AppleAirpods, AppleIpad, AppleMacbook, ApplePhone, AppleTVandHome, AppleWatch, BaseProduct } from '../models/product.model.mjs';
 // import {toSingular} from '../utils/helperFunctions.mjs'
 // import { BaseProduct } from '../models/product.model.mjs';
 
@@ -11,21 +12,29 @@ import {checkCategoryExists} from '../services/category.service.mjs'
  * @returns {Model} - The Mongoose model corresponding to the category
  */
 const getCategoryModel = (category) => {
-    switch (category) {
-        case 'ApplePhone':
+    switch (category.toLowerCase()) {
+        case 'phone':
+        case 'iphone':
             return ApplePhone;
-        case 'AppleWatch':
+        case 'tv':
+        case 'home':
+        case 'tvandhome':
+        case 'tv and home':
+            return AppleTVandHome;
+        case 'watch':
             return AppleWatch;
-        case 'AppleTablet':
-            return AppleTablet;
-        case 'AppleLaptop':
-            return AppleLaptop;
-        case 'AppleMacbook':
+        case 'ipad':
+            return AppleIpad;
+        case 'airpods':
+        case 'airpod':
+            return AppleAirpods;
+        case 'macbook':
             return AppleMacbook;
         default:
-            return BaseProduct; // Default to BaseProduct if no specific category is provided
+            return false;
     }
 };
+
 
 /**
  * Create a new product
@@ -35,7 +44,6 @@ const getCategoryModel = (category) => {
 const createProduct = async (productBody) => {
     // try {
         const { category, ...productData } = productBody;
-        console.log('##########this is our category:',category);
         // Check if the category exists
         const categoryExists = await checkCategoryExists(category);
         if (!categoryExists) {
@@ -43,8 +51,11 @@ const createProduct = async (productBody) => {
         }
         
         const ProductModel = getCategoryModel(category);
+        if (!ProductModel) {
+            console.log('the product model is:',ProductModel);
+            throw new ApiError(httpStatus.BAD_REQUEST, `You must enter a correct category:phone,ipad,macbook,airpods,watch`);
+        }
         const product = new ProductModel(productData);
-        
         // Check if the product_id is not unique
         const existingProduct = await ProductModel.findOne({ product_id: product.product_id });
         if (existingProduct) {

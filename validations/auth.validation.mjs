@@ -52,6 +52,14 @@ const verifyEmail = {
   }),
 };
 
+const TokenUserId  = {
+  body: Joi.object().keys({
+    token: Joi.string().required(),
+    tokenType: Joi.string().valid('access', 'refresh', 'resetPassword', 'verifyEmail').required(),
+  }),
+}
+
+
 export {
   register,
   login,
@@ -60,4 +68,5 @@ export {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  TokenUserId
 };

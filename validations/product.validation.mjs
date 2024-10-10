@@ -7,8 +7,7 @@ const createProductValidation = {
     body: Joi.object().keys({
       product_id:Joi.string().required(),
       name: Joi.string().required(),
-      category: Joi.string(),
-      price: Joi.number().required(),
+      category: Joi.string().required(),
       description: Joi.object().keys({
         overview: Joi.array().items(Joi.object().keys({
           heading: Joi.string().required(),
@@ -29,31 +28,39 @@ const createProductValidation = {
       variants: Joi.array().items(Joi.object().keys({
         model: Joi.string().required(),
         year_introduced: Joi.number().required(),
-        price: Joi.number().required(),
-        salescount: Joi.number().default(0),
-        storageCapacity: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        batteryLive: Joi.string().required(),
+        batteryLive:Joi.string().optional().when('category', {
+          is: 'tvandhome',
+          then: Joi.forbidden().strip()
         }),
-        internalMemory: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        batteryLive:Joi.string().optional().when('category', {
+          is: 'tv and home',
+          then: Joi.forbidden().strip() 
         }),
-        batteryLive: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        sales_count: Joi.number().default(0),
+        screenResolution: Joi.string().optional().when('category', {
+          is: 'Watch',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
         }),
-        screenResolution: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        screenResolution: Joi.string().optional().when('category', {
+          is: 'Airpods',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
         }),
-        cameraModel: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        cameraModel: Joi.string().optional().when('category', {
+          is: 'Watch',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
         }),
-        osVersion: Joi.string().when('category', {
-          is: Joi.valid('phone', 'laptop', 'tablet'),
-          then: Joi.required()
+        cameraModel: Joi.string().optional().when('category', {
+          is: 'Airpods',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+        }),
+        osVersion: Joi.string().optional().when('category', {
+          is: 'Watch',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+        }),
+        osVersion: Joi.string().optional().when('category', {
+          is: 'Airpods',
+          then: Joi.forbidden().strip() // Strip osVersion if category is Watch
         }),
         // applies only when category is watch
         strap_material: Joi.string().when('category', {
@@ -62,9 +69,26 @@ const createProductValidation = {
             otherwise: Joi.string().allow('').optional() // Allow empty string when category is not 'watch'
           }),
         otherVariant: Joi.array().items(Joi.object().keys({
+          price: Joi.number().required(),
           color: Joi.string().required(),
           image: Joi.array().items(Joi.string()).required(),
           color_quantity_in_stock: Joi.number().required(),
+          storageCapacity: Joi.string().optional().when('category', {
+            is: 'Watch',
+            then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+          }),
+          storageCapacity: Joi.string().optional().when('category', {
+            is: 'Airpods',
+            then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+          }),
+          internalMemory: Joi.string().optional().when('category', {
+            is: 'Watch',
+            then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+          }),
+          internalMemory: Joi.string().optional().when('category', {
+            is: 'Airpods',
+            then: Joi.forbidden().strip() // Strip osVersion if category is Watch
+          })
         })).required(),
         model_quantity_in_stock: Joi.number().required(),
       })).required(),

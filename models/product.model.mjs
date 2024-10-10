@@ -85,9 +85,7 @@ const baseproductSchema = new mongoose.Schema(
 
 // Define the discriminator keys and schemas for Apple product categories
 const appleCategorySchemas = {
-  phone: new mongoose.Schema({
-    // Phone-specific fields
-    
+  phone: new mongoose.Schema({    
     variants: [
       {
         model: {
@@ -99,21 +97,9 @@ const appleCategorySchemas = {
           type:String,
           required: true,
         },
-        price: {
-          type: Number,
-          required: true,
-        },
-        salescount:{
+        sales_count:{
           type:Number,
           default:0
-        },
-        storageCapacity: { 
-          type: String, 
-          required: true 
-        },
-        internalMemory:{
-          type: String,
-          required:true
         },
         batteryLive:{
           type:String,
@@ -133,6 +119,18 @@ const appleCategorySchemas = {
         },
         otherVariant: [
           {
+            price: {
+              type: Number,
+              required: true,
+            },
+            storageCapacity: { 
+              type: String, 
+              required: true 
+            },
+            internalMemory:{
+              type: String,
+              required:true
+            },
             color:{ 
               type: String, 
               required: true 
@@ -202,7 +200,7 @@ const appleCategorySchemas = {
       },
     ],
   }),
-  tablet: new mongoose.Schema({
+  ipad: new mongoose.Schema({
     // Tablet-specific fields
     variants: [
       {
@@ -211,25 +209,14 @@ const appleCategorySchemas = {
           required: true,
           trim: true,
         },
-        price: {
-          type: Number,
-          required: true,
-        },
+
         year_introduced: {
           type: Number,
           required: true,
         },
-        salescount:{
+        sales_count:{
           type:Number,
           default:0
-        },
-        storageCapacity: { 
-          type: String, 
-          required: true 
-        },
-        internalMemory:{
-          type: String,
-          required:true
         },
         batteryLive:{
           type:String,
@@ -249,6 +236,18 @@ const appleCategorySchemas = {
         },
         otherVariant: [
           {
+            internalMemory:{
+              type: String,
+              required:true
+            },
+            storageCapacity: { 
+              type: String, 
+              required: true 
+            },
+            price: {
+              type: Number,
+              required: true,
+            },
             color:{ 
               type: String, 
               required: true 
@@ -273,7 +272,7 @@ const appleCategorySchemas = {
       },
     ],
   }),
-  laptop: new mongoose.Schema({
+  airpods: new mongoose.Schema({
     // Laptop-specific fields
     variants: [
       {
@@ -290,33 +289,13 @@ const appleCategorySchemas = {
           type:String,
           required: true,
         },
-        salescount:{
+        sales_count:{
           type:Number,
           default:0
-        },
-        storageCapacity: { 
-          type: String, 
-          required: true 
-        },
-        internalMemory:{
-          type: String,
-          required:true
         },
         batteryLive:{
           type:String,
           required:true
-        },
-        screenResolution:{
-          type:String,
-          required:true
-        },
-        cameraModel:{
-          type:String,
-          default:'not provided'
-        },
-        osVersion:{
-          type:String,
-          default:'not provided'
         },
         otherVariant: [
           {
@@ -353,25 +332,13 @@ const appleCategorySchemas = {
           required: true,
           trim: true,
         },
-        price: {
-          type: Number,
-          required: true,
-        },
         year_introduced: {
           type:String,
           required: true,
         },
-        salescount:{
+        sales_count:{
           type:Number,
           default:0
-        },
-        storageCapacity: { 
-          type: String, 
-          required: true 
-        },
-        internalMemory:{
-          type: String,
-          required:true
         },
         batteryLive:{
           type:String,
@@ -384,6 +351,76 @@ const appleCategorySchemas = {
         cameraModel:{
           type:String,
           default:'not provided'
+        },
+        osVersion:{
+          type:String,
+          default:'not provided'
+        },
+        otherVariant: [
+          {
+            price: {
+              type: Number,
+              required: true,
+            },
+            storageCapacity: { 
+              type: String, 
+              required: true 
+            },
+            internalMemory:{
+              type: String,
+              required:true
+            },
+            color:{ 
+              type: String, 
+              required: true 
+            },
+            image: [
+              { 
+                type: String, 
+                required: true 
+              }
+            ],
+            color_quantity_in_stock: { 
+              type: Number, 
+              required: true 
+            },
+
+          }
+        ],
+        model_quantity_in_stock: { 
+          type: Number, 
+          required: true 
+        },
+      },
+    ],
+  }),
+  tvandhome: new mongoose.Schema({
+    // Laptop-specific fields
+    variants: [
+      {
+        model: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        year_introduced: {
+          type:String,
+          required: true,
+        },
+        sales_count:{
+          type:Number,
+          default:0
+        },
+        storageCapacity: { 
+          type: String, 
+          default:'not provided'
+        },
+        screenResolution:{
+          type:String,
         },
         osVersion:{
           type:String,
@@ -425,10 +462,11 @@ baseproductSchema.plugin(paginate);
 // Create the base product model
 const BaseProduct = mongoose.model(/*model name*/'Product', baseproductSchema,/*collection name*/'products');
 // Create discriminator models for each Apple product category
-const ApplePhone = BaseProduct.discriminator('ApplePhone', appleCategorySchemas.phone);
-const AppleWatch = BaseProduct.discriminator('AppleWatch', appleCategorySchemas.watch);
-const AppleTablet = BaseProduct.discriminator('AppleTablet', appleCategorySchemas.tablet);
-const AppleLaptop = BaseProduct.discriminator('AppleLaptop', appleCategorySchemas.laptop);
-const AppleMacbook = BaseProduct.discriminator('AppleMacbook', appleCategorySchemas.macbook);
+const ApplePhone = BaseProduct.discriminator('phone', appleCategorySchemas.phone);
+const AppleWatch = BaseProduct.discriminator('watch', appleCategorySchemas.watch);
+const AppleIpad = BaseProduct.discriminator('ipad', appleCategorySchemas.ipad);
+const AppleAirpods = BaseProduct.discriminator('airpods', appleCategorySchemas.airpods);
+const AppleMacbook = BaseProduct.discriminator('macbook', appleCategorySchemas.macbook);
+const AppleTVandHome = BaseProduct.discriminator('tvandhome', appleCategorySchemas.tvandhome);
 
-export { BaseProduct, ApplePhone, AppleWatch, AppleTablet, AppleLaptop,AppleMacbook };
+export { BaseProduct, ApplePhone, AppleWatch, AppleIpad, AppleAirpods,AppleMacbook, AppleTVandHome};

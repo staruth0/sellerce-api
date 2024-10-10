@@ -29,6 +29,7 @@ const auth = (...requiredRights) => async (req, res, next) => {
 };
 
 export default auth;
+
 import rateLimit from 'express-rate-limit';
 
 const authLimiter = rateLimit({

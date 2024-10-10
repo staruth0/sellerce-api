@@ -51,14 +51,35 @@ const saveToken = async (token, userId, expires, type, blacklisted = false) => {
  * @param {string} type
  * @returns {Promise<Token>}
  */
-const verifyToken = async (token, type) => {
-  const payload = jwt.verify(token, config.jwt.secret);
-  const tokenDoc = await Token.findOne({ token, type, user: payload.sub, blacklisted: false });
-  if (!tokenDoc) {
-    throw new Error('Token not found');
-  }
-  return tokenDoc;
+const verifyToken = (token, type) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, config.jwt.secret, (error, payload) => {
+      if (error) {
+        if (error instanceof jwt.JsonWebTokenError) {
+          reject(new ApiError(httpStatus.UNAUTHORIZED, 'Invalid token'));
+        } else if (error instanceof jwt.TokenExpiredError) {
+          reject(new ApiError(httpStatus.UNAUTHORIZED, 'Token expired'));
+        } else {
+          reject(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Internal server error'));
+        }
+      } else {
+        Token.findOne({ token, type, user: payload.sub, blacklisted: false })
+          .then(tokenDoc => {
+            if (!tokenDoc) {
+              reject(new ApiError(httpStatus.NOT_FOUND, 'Token not found'));
+            } else {
+              resolve(tokenDoc);
+            }
+          })
+          .catch(err => {
+            reject(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Internal server error'));
+          });
+      }
+    });
+  });
 };
+
+
 
 /**
  * Generate auth tokens

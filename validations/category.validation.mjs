@@ -22,7 +22,7 @@ const updateCategory = {
   body: Joi.object().keys({
     id: Joi.string(),
     categoryName: Joi.string(),
-    featuredImage: Joi.string(),
+    featuredProductName: Joi.string(),
     heroImage: Joi.string(),
     design: Joi.string(),
     performance: Joi.string(),
